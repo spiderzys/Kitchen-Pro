@@ -7,21 +7,33 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		691EDFF31DDBC8D6005C3CA0 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691EDFF21DDBC8D6005C3CA0 /* SearchViewController.swift */; };
+		691EDFF51DDBDA1A005C3CA0 /* RecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691EDFF41DDBDA1A005C3CA0 /* RecipeViewController.swift */; };
+		691EDFF71DDBDBB5005C3CA0 /* RecipeRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691EDFF61DDBDBB5005C3CA0 /* RecipeRequester.swift */; };
+		691EDFF91DDBDBE0005C3CA0 /* RecipeStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691EDFF81DDBDBE0005C3CA0 /* RecipeStorage.swift */; };
 		698146431DDBB50200CC9657 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698146421DDBB50200CC9657 /* AppDelegate.swift */; };
-		698146451DDBB50200CC9657 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698146441DDBB50200CC9657 /* ViewController.swift */; };
+		698146451DDBB50200CC9657 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698146441DDBB50200CC9657 /* RootViewController.swift */; };
 		698146481DDBB50200CC9657 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 698146461DDBB50200CC9657 /* Main.storyboard */; };
 		6981464A1DDBB50200CC9657 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 698146491DDBB50200CC9657 /* Assets.xcassets */; };
 		6981464D1DDBB50200CC9657 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6981464B1DDBB50200CC9657 /* LaunchScreen.storyboard */; };
+		B44E51FEDCEEA7C10AB49D6A /* Pods_Kitchen_Pro.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7444794BE40252784681922F /* Pods_Kitchen_Pro.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		691EDFF21DDBC8D6005C3CA0 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		691EDFF41DDBDA1A005C3CA0 /* RecipeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeViewController.swift; sourceTree = "<group>"; };
+		691EDFF61DDBDBB5005C3CA0 /* RecipeRequester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeRequester.swift; sourceTree = "<group>"; };
+		691EDFF81DDBDBE0005C3CA0 /* RecipeStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeStorage.swift; sourceTree = "<group>"; };
 		6981463F1DDBB50200CC9657 /* Kitchen Pro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Kitchen Pro.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		698146421DDBB50200CC9657 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		698146441DDBB50200CC9657 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		698146441DDBB50200CC9657 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		698146471DDBB50200CC9657 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		698146491DDBB50200CC9657 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6981464C1DDBB50200CC9657 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6981464E1DDBB50200CC9657 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7444794BE40252784681922F /* Pods_Kitchen_Pro.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Kitchen_Pro.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9168BF978112A53B52E8DDE8 /* Pods-Kitchen Pro.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kitchen Pro.release.xcconfig"; path = "Pods/Target Support Files/Pods-Kitchen Pro/Pods-Kitchen Pro.release.xcconfig"; sourceTree = "<group>"; };
+		C7677A9F753A5B8BE5CA9338 /* Pods-Kitchen Pro.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Kitchen Pro.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Kitchen Pro/Pods-Kitchen Pro.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B44E51FEDCEEA7C10AB49D6A /* Pods_Kitchen_Pro.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +53,8 @@
 			children = (
 				698146411DDBB50200CC9657 /* Kitchen Pro */,
 				698146401DDBB50200CC9657 /* Products */,
+				D2AFDCBC74728A90C19F7B32 /* Pods */,
+				CD0F75A5F8CB99AC86D0C98E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -55,13 +70,34 @@
 			isa = PBXGroup;
 			children = (
 				698146421DDBB50200CC9657 /* AppDelegate.swift */,
-				698146441DDBB50200CC9657 /* ViewController.swift */,
+				691EDFF61DDBDBB5005C3CA0 /* RecipeRequester.swift */,
+				691EDFF81DDBDBE0005C3CA0 /* RecipeStorage.swift */,
+				698146441DDBB50200CC9657 /* RootViewController.swift */,
 				698146461DDBB50200CC9657 /* Main.storyboard */,
+				691EDFF21DDBC8D6005C3CA0 /* SearchViewController.swift */,
+				691EDFF41DDBDA1A005C3CA0 /* RecipeViewController.swift */,
 				698146491DDBB50200CC9657 /* Assets.xcassets */,
 				6981464B1DDBB50200CC9657 /* LaunchScreen.storyboard */,
 				6981464E1DDBB50200CC9657 /* Info.plist */,
 			);
 			path = "Kitchen Pro";
+			sourceTree = "<group>";
+		};
+		CD0F75A5F8CB99AC86D0C98E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7444794BE40252784681922F /* Pods_Kitchen_Pro.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D2AFDCBC74728A90C19F7B32 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C7677A9F753A5B8BE5CA9338 /* Pods-Kitchen Pro.debug.xcconfig */,
+				9168BF978112A53B52E8DDE8 /* Pods-Kitchen Pro.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -71,9 +107,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 698146511DDBB50200CC9657 /* Build configuration list for PBXNativeTarget "Kitchen Pro" */;
 			buildPhases = (
+				F1BAF247FE6877A7ED9C8B6B /* [CP] Check Pods Manifest.lock */,
 				6981463B1DDBB50200CC9657 /* Sources */,
 				6981463C1DDBB50200CC9657 /* Frameworks */,
 				6981463D1DDBB50200CC9657 /* Resources */,
+				11199E8DA20FE55055684C00 /* [CP] Embed Pods Frameworks */,
+				3E329C18989CC29F110C617D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -132,13 +171,65 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		11199E8DA20FE55055684C00 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Kitchen Pro/Pods-Kitchen Pro-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3E329C18989CC29F110C617D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Kitchen Pro/Pods-Kitchen Pro-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F1BAF247FE6877A7ED9C8B6B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		6981463B1DDBB50200CC9657 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				698146451DDBB50200CC9657 /* ViewController.swift in Sources */,
+				691EDFF51DDBDA1A005C3CA0 /* RecipeViewController.swift in Sources */,
+				691EDFF71DDBDBB5005C3CA0 /* RecipeRequester.swift in Sources */,
+				691EDFF31DDBC8D6005C3CA0 /* SearchViewController.swift in Sources */,
+				698146451DDBB50200CC9657 /* RootViewController.swift in Sources */,
 				698146431DDBB50200CC9657 /* AppDelegate.swift in Sources */,
+				691EDFF91DDBDBE0005C3CA0 /* RecipeStorage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,6 +350,7 @@
 		};
 		698146521DDBB50200CC9657 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C7677A9F753A5B8BE5CA9338 /* Pods-Kitchen Pro.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = M9KWKR5F39;
@@ -272,6 +364,7 @@
 		};
 		698146531DDBB50200CC9657 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9168BF978112A53B52E8DDE8 /* Pods-Kitchen Pro.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = M9KWKR5F39;
@@ -302,6 +395,7 @@
 				698146531DDBB50200CC9657 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
