@@ -9,36 +9,46 @@
 import UIKit
 import RealmSwift
 
-class RecipeStorage: NSObject {
 
+
+class RecipeStorage {
+    static let sharedInstance = RecipeStorage()
     let recipeStorage = try! Realm()
+    
+    func setRecommendedRecipes(){
+        
+
+       
+    }
     
 }
 
-
 class ingredient: Object {
     
-    dynamic var ingredientDescription:String?
+    dynamic var ingredientDescription = ""
     dynamic var prepared = false
     
 }
 
 
-
-
 class Recipe:Object{
     
-    dynamic var count = 0
+    
     dynamic var imageData = NSDate()
+    dynamic var imageUrlString = ""
+    
     dynamic var iconData = NSData()
+    dynamic var iconUrlString = ""
+    
     var ingredients = List<ingredient>()
     dynamic var note = ""
-    dynamic var calory: Float = 0;
-    dynamic var lastRecommeded = false
-    dynamic var saved = true
-    dynamic var recommeded = true
+    dynamic var calorie: Float = 0;
+    dynamic var saved = false
+    dynamic var recommeded = false
     dynamic var healthLabels = ""
     dynamic var dietLabels = ""
+    
+    
 
 
     

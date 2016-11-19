@@ -8,14 +8,25 @@
 
 import UIKit
 
-class RootViewController: UIViewController {
+class RootViewController: UIViewController, UIScrollViewDelegate, RecipeRequesterDelegate {
 
+    @IBOutlet weak var recommededRecipeCollectionView: UICollectionView!
+    @IBOutlet weak var savedRecipeCollectionView: UICollectionView!
+    let recipeRequester = RecipeRequester.sharedInstance
+    
+    var recipeCellSize:CGSize {
+        return CGSize(width: recommededRecipeCollectionView.bounds.height, height: recommededRecipeCollectionView.bounds.height)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        recipeRequester.delegate = self;
+     //   recipeRequester.recipeSearchRequest(keyword: "beefwewe");
+        let recipeStorage = RecipeStorage.sharedInstance.recipeStorage.objects(Recipe.self).filter("recommended == true")
+        print(recipeStorage.count)
         // Do any additional setup after loading the view, typically from a nib.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -25,7 +36,48 @@ class RootViewController: UIViewController {
                  sender: Any?){
         
     }
-
-
+    
+    
+    // RecipeRequester delegate
+    func didGetRecipe(recipe:Recipe){
+        
+    }
+    
+    // data source protocol
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int{
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
+        
+        if (collectionView == recommededRecipeCollectionView){
+            let recipeCell = collectionView.dequeueReusableCell(withReuseIdentifier: "guess", for: indexPath)
+            
+            return recipeCell
+        }
+        
+        else{
+            let recipeCell = collectionView.dequeueReusableCell(withReuseIdentifier: "save", for: indexPath)
+            
+            return recipeCell
+        }
+        
+    }
+    
+    
+    // delegate protocol
+    func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath){
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize{
+        
+        return recipeCellSize
+    }
 }
 

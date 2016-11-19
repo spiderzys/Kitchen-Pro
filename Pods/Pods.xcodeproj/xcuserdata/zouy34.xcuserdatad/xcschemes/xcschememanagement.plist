@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>AlamofireImage.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>BEMCheckBox.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -42,7 +47,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>40906682F56C1F719B5359F4B6CE04A5</key>
+		<key>56383D038B95748A179BEED3952D0C4F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>7F1A09D038300E7314A430932DD7AFC5</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -52,17 +62,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B6F547DB6FEDD1D7BDC7C45834857DBE</key>
+		<key>9A9607081D65642D58E06157DF6E72FD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9EFE4C70245EE2857D336B8B9FA4E825</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>C0F66EC21AF4E86F373B282628985CC6</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>CCD2DBEAA2684FABEEC7CE673E053945</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -1,5 +1,7 @@
 PODS:
   - Alamofire (4.0.1)
+  - AlamofireImage (3.1.0):
+    - Alamofire (~> 4.0)
   - BEMCheckBox (1.2.1)
   - Firebase/AdMob (3.9.0):
     - Firebase/Core
@@ -31,7 +33,7 @@ PODS:
     - Realm (= 2.0.3)
 
 DEPENDENCIES:
-  - Alamofire
+  - AlamofireImage
   - BEMCheckBox
   - Firebase/AdMob
   - Firebase/Core
@@ -39,6 +41,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Alamofire: 7682d43245de14874acd142ec137b144aa1dd335
+  AlamofireImage: bb8c8351c51cb1633bb6be69b6dbbaff37ce65b7
   BEMCheckBox: 264b8b72aa92adbfefa265cc58a0cdb86b207b9f
   Firebase: ff77ffb77b317c3720fef57a60e9335cebf962e6
   FirebaseAnalytics: 6e58fc9b397664369ac7617fb0ba93fab6ba7b5b
@@ -51,6 +54,6 @@ SPEC CHECKSUMS:
   Realm: 5f008bfe3c8c47142eddfc30b8c1584cde22db24
   RealmSwift: 5afb451f65b682242f272dbb52d5c6f6e343c980
 
-PODFILE CHECKSUM: 9e6c9beb6bb5669af3ca421d1d5ea37cc9fdfce8
+PODFILE CHECKSUM: dc01806c9a2f47b3b967ee8214c8ed54b1c339ac
 
 COCOAPODS: 1.1.1

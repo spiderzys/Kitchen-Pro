@@ -7,7 +7,7 @@ target 'Kitchen Pro' do
   pod 'RealmSwift'
   pod 'Firebase/Core'
   pod 'Firebase/AdMob'
-  pod 'Alamofire'
+  pod 'AlamofireImage'
   pod 'BEMCheckBox'
   # Pods for Kitchen Pro
 

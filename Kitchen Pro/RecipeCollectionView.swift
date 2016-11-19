@@ -30,6 +30,7 @@ class RecipeCollectionView: UICollectionView {
 }
 
 extension RecipeCollectionViewDelegate {
+    
     func numOfColumns(collectionView: UICollectionView) -> Int {
         return 3
     }
