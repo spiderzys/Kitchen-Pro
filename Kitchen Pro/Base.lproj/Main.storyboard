@@ -69,9 +69,6 @@
                                             <constraint firstItem="xa6-0K-cPj" firstAttribute="top" secondItem="OWf-ZE-JZn" secondAttribute="top" constant="6" id="tpb-He-0kF"/>
                                             <constraint firstAttribute="bottom" secondItem="2zA-fQ-Lr5" secondAttribute="bottom" constant="6" id="unA-JT-zOn"/>
                                         </constraints>
-                                        <connections>
-                                            <segue destination="hLI-Hw-0Zh" kind="presentation" id="KkF-2d-y9c"/>
-                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                                 <connections>
@@ -80,17 +77,19 @@
                                 </connections>
                             </collectionView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Guess you like..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y6b-Sd-kK3">
-                                <rect key="frame" x="0.0" y="162" width="128" height="26"/>
+                                <rect key="frame" x="0.0" y="162" width="200" height="26"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="26" id="7B5-zC-GBo"/>
-                                    <constraint firstAttribute="width" constant="128" id="BAJ-dV-tsI"/>
+                                    <constraint firstAttribute="width" constant="200" id="BAJ-dV-tsI"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="17"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" red="0.59996992349624634" green="0.39971703290939331" blue="0.19907021522521973" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Your gradients, separated by &quot;,&quot;" translatesAutoresizingMaskIntoConstraints="NO" id="Fx3-ze-LS6">
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="ingredients, e.g., beef,chicken" translatesAutoresizingMaskIntoConstraints="NO" id="Fx3-ze-LS6">
                                 <rect key="frame" x="0.0" y="10" width="320" height="44"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="barTintColor" red="0.5999699235" green="0.39971703289999999" blue="0.19907021520000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="1sM-Xq-4JF"/>
@@ -109,7 +108,7 @@
                                     <constraint firstAttribute="width" constant="128" id="e2d-sv-aBr"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Copperplate" family="Copperplate" pointSize="17"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" red="0.5999699235" green="0.39971703289999999" blue="0.19907021520000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fhw-RY-1x8">
@@ -155,9 +154,6 @@
                                             <constraint firstAttribute="trailing" secondItem="eMC-hQ-c6X" secondAttribute="trailing" constant="6" id="uee-P4-qCs"/>
                                             <constraint firstItem="LPl-MJ-gbN" firstAttribute="leading" secondItem="5z7-A1-9Ng" secondAttribute="leading" constant="6" id="xwQ-Yd-DmE"/>
                                         </constraints>
-                                        <connections>
-                                            <segue destination="hLI-Hw-0Zh" kind="presentation" id="Uh3-hQ-Llo"/>
-                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                                 <connections>
@@ -234,6 +230,7 @@
                                     <segment title="Relevant"/>
                                     <segment title="Calorie"/>
                                 </segments>
+                                <color key="tintColor" red="0.5999699235" green="0.39971703289999999" blue="0.19907021520000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </segmentedControl>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Gye-ff-2cl">
                                 <rect key="frame" x="0.0" y="84.5" width="320" height="483.5"/>
@@ -332,10 +329,10 @@
             </objects>
             <point key="canvasLocation" x="684.375" y="-9.5070422535211261"/>
         </scene>
-        <!--View Controller-->
+        <!--Recipe View Controller-->
         <scene sceneID="hKk-gt-FiY">
             <objects>
-                <viewController id="hLI-Hw-0Zh" sceneMemberID="viewController">
+                <viewController id="hLI-Hw-0Zh" customClass="RecipeViewController" customModule="Kitchen_Pro" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Q8U-oc-g4K"/>
                         <viewControllerLayoutGuide type="bottom" id="Rip-g5-Ji3"/>
@@ -348,35 +345,63 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <items>
                                     <navigationItem id="2r8-L5-mFc">
-                                        <barButtonItem key="leftBarButtonItem" title="Item" id="RxI-ck-ZdZ"/>
+                                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="reply" id="RxI-ck-ZdZ">
+                                            <color key="tintColor" red="0.5999699235" green="0.39971703289999999" blue="0.19907021520000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FJa-sn-fGK">
-                                <rect key="frame" x="118" y="159" width="240" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </webView>
-                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xEq-Gm-hhT">
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="frV-FL-LlZ" secondAttribute="trailing" id="N3R-AY-jIZ"/>
+                            <constraint firstItem="frV-FL-LlZ" firstAttribute="top" secondItem="GQZ-J7-gfb" secondAttribute="top" id="gOZ-UC-BAJ"/>
+                            <constraint firstItem="frV-FL-LlZ" firstAttribute="leading" secondItem="GQZ-J7-gfb" secondAttribute="leading" id="igU-9N-P9H"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0KW-b8-AfY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-60" y="655"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="oe8-rU-sXV">
+            <objects>
+                <viewController id="msn-7y-jrT" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="NJf-Qm-WOy"/>
+                        <viewControllerLayoutGuide type="bottom" id="dqQ-jZ-8ei"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="jRz-0V-1XA">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IHo-7e-lMO">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <items>
+                                    <navigationItem title="Title" id="960-vE-kvW"/>
+                                </items>
+                            </navigationBar>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NpZ-Wx-8SR">
                                 <rect key="frame" x="0.0" y="44" width="320" height="524"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </webView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="xEq-Gm-hhT" secondAttribute="trailing" id="DqC-Zq-Wcc"/>
-                            <constraint firstItem="xEq-Gm-hhT" firstAttribute="leading" secondItem="GQZ-J7-gfb" secondAttribute="leading" id="EKe-5P-hMd"/>
-                            <constraint firstAttribute="trailing" secondItem="frV-FL-LlZ" secondAttribute="trailing" id="N3R-AY-jIZ"/>
-                            <constraint firstItem="xEq-Gm-hhT" firstAttribute="top" secondItem="frV-FL-LlZ" secondAttribute="bottom" id="f6t-uS-4av"/>
-                            <constraint firstItem="frV-FL-LlZ" firstAttribute="top" secondItem="GQZ-J7-gfb" secondAttribute="top" id="gOZ-UC-BAJ"/>
-                            <constraint firstItem="frV-FL-LlZ" firstAttribute="leading" secondItem="GQZ-J7-gfb" secondAttribute="leading" id="igU-9N-P9H"/>
-                            <constraint firstItem="Rip-g5-Ji3" firstAttribute="top" secondItem="xEq-Gm-hhT" secondAttribute="bottom" id="zOu-K6-lKa"/>
+                            <constraint firstAttribute="trailing" secondItem="IHo-7e-lMO" secondAttribute="trailing" id="1UY-Kt-seQ"/>
+                            <constraint firstItem="IHo-7e-lMO" firstAttribute="top" secondItem="jRz-0V-1XA" secondAttribute="top" id="4eP-ZE-nOX"/>
+                            <constraint firstItem="NpZ-Wx-8SR" firstAttribute="top" secondItem="IHo-7e-lMO" secondAttribute="bottom" id="IBc-eq-PuP"/>
+                            <constraint firstItem="dqQ-jZ-8ei" firstAttribute="top" secondItem="NpZ-Wx-8SR" secondAttribute="bottom" id="SPY-vS-glT"/>
+                            <constraint firstItem="NpZ-Wx-8SR" firstAttribute="leading" secondItem="jRz-0V-1XA" secondAttribute="leading" id="icr-9v-j5H"/>
+                            <constraint firstItem="IHo-7e-lMO" firstAttribute="leading" secondItem="jRz-0V-1XA" secondAttribute="leading" id="oP1-sj-m8e"/>
+                            <constraint firstAttribute="trailing" secondItem="NpZ-Wx-8SR" secondAttribute="trailing" id="qRm-JY-0sR"/>
                         </constraints>
                     </view>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="0KW-b8-AfY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oVe-5e-xib" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="316.875" y="771.12676056338034"/>
+            <point key="canvasLocation" x="691.875" y="654.92957746478874"/>
         </scene>
     </scenes>
     <resources>
@@ -384,7 +409,5 @@
         <image name="Return" width="100" height="100"/>
         <image name="Serving" width="100" height="100"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="Uh3-hQ-Llo"/>
-    </inferredMetricsTieBreakers>
+    <color key="tintColor" red="0.5999699235" green="0.39971703289999999" blue="0.19907021520000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

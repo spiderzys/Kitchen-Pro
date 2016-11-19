@@ -15,10 +15,22 @@ class RecipeStorage {
     static let sharedInstance = RecipeStorage()
     let recipeStorage = try! Realm()
     
-    func setRecommendedRecipes(){
+    func setRecommendedRecipes() -> Results<Recipe>{
+        let recommendedRecipes = RecipeStorage.sharedInstance.recipeStorage.objects(Recipe.self).filter("recommended == true")
+        
+        if recommendedRecipes.count == 0 {
+            // generate static recommended recipes
+        }
+        
+        return recommendedRecipes
         
 
        
+    }
+    
+    
+    func originalRecipesGenerated(){
+        
     }
     
 }
@@ -44,7 +56,7 @@ class Recipe:Object{
     dynamic var note = ""
     dynamic var calorie: Float = 0;
     dynamic var saved = false
-    dynamic var recommeded = false
+    dynamic var recommended = false
     dynamic var healthLabels = ""
     dynamic var dietLabels = ""
     

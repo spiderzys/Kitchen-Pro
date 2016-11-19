@@ -12,19 +12,37 @@ class RootViewController: UIViewController, UIScrollViewDelegate, RecipeRequeste
 
     @IBOutlet weak var recommededRecipeCollectionView: UICollectionView!
     @IBOutlet weak var savedRecipeCollectionView: UICollectionView!
+  
     let recipeRequester = RecipeRequester.sharedInstance
     
     var recipeCellSize:CGSize {
         return CGSize(width: recommededRecipeCollectionView.bounds.height, height: recommededRecipeCollectionView.bounds.height)
     }
     
+    var recommendedRecipes:Array<Recipe> = Array()
+    var savedRecipes:Array<Recipe> = Array()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        recipeRequester.delegate = self;
+        
+        
+        
      //   recipeRequester.recipeSearchRequest(keyword: "beefwewe");
-        let recipeStorage = RecipeStorage.sharedInstance.recipeStorage.objects(Recipe.self).filter("recommended == true")
-        print(recipeStorage.count)
+       
+       
         // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?){
+        if(keyPath == #keyPath(recommendedRecipes)){
+            
+            recommededRecipeCollectionView.reloadData()
+        }
+        
+        else if (keyPath == #keyPath(savedRecipes)){
+            
+            savedRecipeCollectionView.reloadData()
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -37,11 +55,32 @@ class RootViewController: UIViewController, UIScrollViewDelegate, RecipeRequeste
         
     }
     
+    func setRecipes(){
+        recipeRequester.delegate = self;
+        recipeRequester.recipeRecommededRequest()
+        
+        // kvo to observe 
+        self.addObserver(self, forKeyPath: #keyPath(recommendedRecipes), options: .new, context: nil)
+        self.addObserver(self, forKeyPath: #keyPath(savedRecipes), options: .new, context: nil)
+    }
+    
     
     // RecipeRequester delegate
-    func didGetRecipe(recipe:Recipe){
+    func didGetQuesRecipes(recipes:Array<Recipe>){
         
     }
+    
+    func didGetRecommendedRecipes(recipes:Array<Recipe>){
+        
+        recommendedRecipes = recipes;
+        recommededRecipeCollectionView.reloadData()
+    }
+    
+    func didGetSavedRecipes(recipes:Array<Recipe>){
+        
+        savedRecipeCollectionView.reloadData()
+    }
+
     
     // data source protocol
     func collectionView(_ collectionView: UICollectionView,

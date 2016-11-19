@@ -53,24 +53,7 @@ class ImageLoader {
         }
         self.delegate?.didFinishLoading(image: image)
         
-        /*  use AlamofireImage instead
-        Alamofire.download(url).responseData { response in
-            guard let data = response.result.value
-                else{
-                    self.delegate?.didLoadingFailed(error: ImageLoaderError.no_data)
-                    return
-            }
-            
-            guard let image = UIImage(data: data)
-                else{
-                    self.delegate?.didLoadingFailed(error: ImageLoaderError.error_image_data)
-                    return
-            }
-            
-            self.delegate?.didFinishLoading(image: image)
-        }
-        */
-        
+                
     }
     
 }
