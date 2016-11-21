@@ -8,8 +8,11 @@
 
 import UIKit
 
+
 class RecipeViewController: UIViewController {
 
+    var recipeSaved = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

@@ -198,6 +198,7 @@ class RecipeRequester {
     
     func removeRecipe(recipe:Recipe, type:RecipeType){
         
+        
     }
     
     func addRecipe(recipe:Recipe, type:RecipeType){
