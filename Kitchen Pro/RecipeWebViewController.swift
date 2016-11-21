@@ -1,18 +1,33 @@
 //
-//  RecipeViewController.swift
+//  RecipeWebViewController.swift
 //  Kitchen Pro
 //
-//  Created by YANGSHENG ZOU on 2016-11-15.
+//  Created by YANGSHENG ZOU on 2016-11-19.
 //  Copyright © 2016 YANGSHENG ZOU. All rights reserved.
 //
 
 import UIKit
 
-class RecipeViewController: UIViewController {
+class RecipeWebViewController: UIViewController {
 
+    var recipeUrl:URL?
+    var recipeTitle:String?
+    @IBOutlet weak var recipeWebView: UIWebView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if recipeUrl != nil {
+            let request = URLRequest(url: recipeUrl!)
+            recipeWebView.loadRequest(request)
+        }
+        
+        navigationItem.title = recipeTitle
+        
 
+        
+        
         // Do any additional setup after loading the view.
     }
 
@@ -31,17 +46,5 @@ class RecipeViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-    
-    
-    @IBAction func didSaveButtonTouched(_ sender: UIButton) {
-        
-        
-    }
-    
-    @IBAction func didBookmarkButtonTouched(_ sender: UIButton) {
-        
-        
-    }
-    
 
 }

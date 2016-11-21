@@ -17,6 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        
+        /*  potential migration
         Realm.Configuration.defaultConfiguration = Realm.Configuration(
             schemaVersion: 1,
             migrationBlock: { migration, oldSchemaVersion in
@@ -26,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     migration.renameProperty(onType: Recipe.className(), from: "recommeded", to: "recommended")
                 }
         })
-        
+        */
         
         return true
     }

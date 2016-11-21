@@ -11,9 +11,7 @@ import Alamofire
 
 protocol RecipeRequesterDelegate:class {
     
-    func didGetQuesRecipes(recipes:Array<Recipe>)
-    func didGetRecommendedRecipes(recipes:Array<Recipe>)
-    func didGetSavedRecipes(recipes:Array<Recipe>)
+    func didGetRecipes(recipes:Array<Recipe>,type:RecipeRequestType)
     
     func didfailToGetRecipe(error:RecipeRequestError)
     
@@ -34,18 +32,27 @@ enum RecipeRequestType {
     case search
 }
 
+enum RecipeType:String {
+    
+    case saved = "saved"
+    case recommended = "recommended"
+    
+}
+
 class RecipeRequester {
     
     static let sharedInstance = RecipeRequester()
     let apikey = "app_id=ac0ab8e9&app_key=fb39a454934a7a5a74b8adcb3a8b3985"
     let searchBaseString =  "https://api.edamam.com/search?"
     weak var delegate:RecipeRequesterDelegate?
-   
+    
     //  var health: [String:Bool]?
     // var diet = ""
     // var to = ""
     
     
+    
+    // MARK: for search request
     
     func recipeRequest(type:RecipeRequestType, searchKey:String?){
         guard delegate != nil else {
@@ -58,37 +65,46 @@ class RecipeRequester {
         case .saved:
             savedRecipeRequest()
         case .search:
-            recipeSearchRequest(keyword: searchKey)
+            recipeSearchRequest(keyword: searchKey, search:true)
         default:
-            <#code#>
+            recipeRecommededRequest()
         }
     }
     
+    private func recipeSearchRequest(keyword:String!, search:Bool){
+        
+        recipeSearchRequest(keyword: keyword, from: 0, to: 100, search:search)
+        
+    }
     
-    
-    private func recipeSearchRequest(keyword:String? , from:Int , to:Int){
+    private func recipeSearchRequest(keyword:String? , from:Int , to:Int, search:Bool){
         
         if keyword == nil || keyword?.characters.count == 0  {
             
             delegate?.didfailToGetRecipe(error: RecipeRequestError.key_null)
             return
         }
-    
+        
         let requestString = String(format: "%@%@&from=%d&to=%d&q=%@", searchBaseString,apikey,from,to,modifiedKeyword(keyword: keyword!))
         
-        request(requestString)
+        recipeRequest(url: requestString, search:search)
+        
+        
         
     }
     
     
     
     private func modifiedKeyword(keyword:String) -> String {
-        var key = keyword.replacingOccurrences(of: ",", with: "+");
-        key = key.replacingOccurrences(of: " ", with: "-")
+        
+       // var key = keyword.replacingOccurrences(of: ",", with: "+");
+        return keyword.replacingOccurrences(of: " ", with: "-")
+       
     }
     
     
-    private func recipeRequest(url:URLConvertible){
+    private func recipeRequest(url:URLConvertible, search:Bool){
+        
         Alamofire.request(url).responseJSON { response in
             
             guard let JSON = response.result.value as? [String:AnyObject]  else{
@@ -96,49 +112,98 @@ class RecipeRequester {
                 return
             }
             
-            guard let recipes = JSON["hits"] as? Array<[String:AnyObject]> else{
+            guard let rawRecipeDicts = JSON["hits"] as? Array<[String:AnyObject]> else{
                 self.delegate?.didfailToGetRecipe(error:RecipeRequestError.hits_error)
                 return
             }
             
-            guard recipes.count > 0 else{
+            guard rawRecipeDicts.count > 0 else{
                 self.delegate?.didfailToGetRecipe(error:RecipeRequestError.recipes_null)
                 return
             }
-        }
-    }
-    
-    
-   private func recipeSearchRequest(keyword:String!){
-        
-        recipeSearchRequest(keyword: keyword, from: 0, to: 100)
-        
-    }
-    
-    
-   private func recipeRecommededRequest(){
-    
-        let recommendedRecipes = RecipeStorage.sharedInstance.recipeStorage.objects(Recipe.self).filter("recommended == true")
-    
-        if recommendedRecipes.count > 0 {
-            delegate?.didGetRecommendedRecipes(recipes: Array(recommendedRecipes))
-            return 
-        }
-        recipeSearchRequest(keyword: "beef,chicken", from: 0, to: 20)
-              
-    }
-    
-   private func savedRecipeRequest(){
-        guard delegate != nil else {
             
-            print("no delegate set yet")
+            
+            let recipes = self.processDownloadedRecipes(rawRecipeDicts: rawRecipeDicts)
+            
+            let type:RecipeRequestType = search ? .search : .recommended
+            
+            self.delegate?.didGetRecipes(recipes: recipes, type: type)
+            
+        }
+    }
+    
+    private func processDownloadedRecipes(rawRecipeDicts:Array<[String:AnyObject]>) -> Array<Recipe> {
+        
+        
+        let recipes:Array<Recipe> =  rawRecipeDicts.map{
+            (rawRecipeDict:[String:AnyObject]) in
+            let rawRecipe = rawRecipeDict["recipe"] as! [String:AnyObject];
+            let recipe = Recipe()
+            
+            recipe.serving = rawRecipe["yield"] as! Int
+            
+            let healthLabels = rawRecipe["healthLabels"] as! Array<String>
+            if healthLabels.count > 0 {
+                recipe.healthLabels = healthLabels.reduce(""){text1, text2 in "\(text1)+\(text2)"}
+                recipe.healthLabels.remove(at: recipe.healthLabels.startIndex)
+            }
+            
+            let dietLabels = rawRecipe["dietLabels"] as! Array<String>
+            if dietLabels.count > 0 {
+                
+                recipe.dietLabels = dietLabels.reduce(""){text1, text2 in "\(text1)+\(text2)"}
+                recipe.dietLabels.remove(at: recipe.dietLabels.startIndex)
+            }
+            
+            
+            recipe.imageUrlString = rawRecipe["image"] as! String
+            recipe.title = rawRecipe["label"] as! String
+            recipe.urlString = rawRecipe["url"] as! String
+            recipe.calorie = (rawRecipe["calories"]?.floatValue)!
+            
+            let ingredients = rawRecipe["ingredientLines"] as! Array<String>
+            for ingredient in ingredients {
+                let item = Ingredient()
+                item.ingredientDescription = ingredient
+                recipe.ingredients.append(item)
+            }
+            return recipe
+        }
+        return recipes
+    }
+    
+    
+    
+    
+    private func recipeRecommededRequest(){  // request recommended recipes
+        
+        let recommendedRecipes = Array(RecipeStorage.sharedInstance.recipes.objects(Recipe.self).filter("recommended == true"))
+        
+        if recommendedRecipes.count > 0 {  // hold recomended recipes already
+            delegate?.didGetRecipes(recipes: recommendedRecipes, type: .recommended)
             return
         }
+        let startIndex = Int(arc4random_uniform(90))  //generate 10 recommended recipes
+        recipeSearchRequest(keyword: "beef,chicken", from: startIndex, to: startIndex+10, search:false)
         
-        
-
     }
     
+    private func savedRecipeRequest(){   // request saved recipes
+        
+        let savedRecipes = Array(RecipeStorage.sharedInstance.recipes.objects(Recipe.self).filter("saved == true"))
+        delegate?.didGetRecipes(recipes: savedRecipes, type: .saved)
+        
+    }
+    
+    
+    func removeRecipe(recipe:Recipe, type:RecipeType){
+        
+    }
+    
+    func addRecipe(recipe:Recipe, type:RecipeType){
+        
+    }
+
     
     
 }
