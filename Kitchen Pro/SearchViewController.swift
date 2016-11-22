@@ -10,12 +10,18 @@
 
 import UIKit
 
+enum sortType {
+    
+    case relevance
+    case calorie
+}
 
-
-class SearchViewController: UIViewController {
+class SearchViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     var numOfColumns:CGFloat = 3
     var recipes:Array<Recipe> = Array()
+    var sortedRecipes:Array<Recipe> = Array()
+    
     
     @IBOutlet weak var recipeCollectionView: UICollectionView!
     
@@ -23,6 +29,7 @@ class SearchViewController: UIViewController {
         
         super.viewDidLoad()
         
+        sortedRecipes = recipes
         // Do any additional setup after loading the view.
     }
     
@@ -46,15 +53,14 @@ class SearchViewController: UIViewController {
     
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int{
-        return recipes.count
+        
+        return sortedRecipes.count
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
         
         let recipeCell = collectionView.dequeueReusableCell(withReuseIdentifier: "recipe", for: indexPath)
-        
-        
         
         return recipeCell
         
@@ -76,5 +82,32 @@ class SearchViewController: UIViewController {
         return CGSize(width: collectionView.bounds.width/numOfColumns, height: collectionView.bounds.width/numOfColumns)
         
     }
+    
+    
+    @IBAction func sortMethodChanged(_ sender: UISegmentedControl) {
+        
+        switch sender.selectedSegmentIndex {
+        case 0:
+            sortRecipes(type: .relevance)
+        case 1:
+            sortRecipes(type: .calorie)
+        default:
+            break
+        }
+        
+    }
+    
+    private func sortRecipes(type:sortType){
+        
+        switch type {
+        case .relevance:
+            sortedRecipes = recipes
+        case .calorie:
+            sortedRecipes.sort{ $0.calorie < $1.calorie }
+        }
+        
+    }
+    
+    
     
 }

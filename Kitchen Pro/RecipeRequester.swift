@@ -13,6 +13,8 @@ protocol RecipeRequesterDelegate:class {
     
     func didGetRecipes(recipes:Array<Recipe>,type:RecipeRequestType)
     
+    func didRemoveRecipes(type:RecipeType)
+    
     func didfailToGetRecipe(error:RecipeRequestError)
     
 }
@@ -177,7 +179,8 @@ class RecipeRequester {
     
     private func recipeRecommededRequest(){  // request recommended recipes
         
-        let recommendedRecipes = Array(RecipeStorage.sharedInstance.recipes.objects(Recipe.self).filter("recommended == true"))
+        let recommendedRecipes = RecipeStorage.sharedInstance.recipes.objects(Recipe.self).filter("recommended == true")
+      
         
         if recommendedRecipes.count > 0 {  // hold recomended recipes already
             delegate?.didGetRecipes(recipes: recommendedRecipes, type: .recommended)
@@ -197,12 +200,32 @@ class RecipeRequester {
     
     
     func removeRecipe(recipe:Recipe, type:RecipeType){
+        let recipes = RecipeStorage.sharedInstance.recipes
+        switch type {
+        
+        case .recommended:
+            try! recipes.write{
+               recipe.recommended = false
+            }
+        case .saved:
+            try! recipes.write{
+               recipe.saved = false
+            }
+        }
+        
+        if(!recipe.recommended && !recipe.saved) {
+            recipes.delete(recipe)
+        }
+       
         
         
     }
     
     func addRecipe(recipe:Recipe, type:RecipeType){
-        
+        let recipes = RecipeStorage.sharedInstance.recipes
+        try! recipes.write {
+            recipes.add(recipe)
+        }
     }
 
     

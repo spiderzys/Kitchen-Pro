@@ -7,15 +7,13 @@
 // https://api.edamam.com/search?q=chicken&app_id=ac0ab8e9&app_key=fb39a454934a7a5a74b8adcb3a8b3985&from=0&to=3&calories=gte%20591,%20lte%20722&health=alcohol-free
 
 import UIKit
-import BEMCheckBox
 
-class RootViewController: UIViewController, UIScrollViewDelegate, RecipeRequesterDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
+class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
 
     @IBOutlet weak var recommendedRecipeCollectionView: UICollectionView!
     @IBOutlet weak var savedRecipeCollectionView: UICollectionView!
   
     let recipeRequester = RecipeRequester.sharedInstance
-    let observer = NSObject()
     
     var recipeCellSize:CGSize {
         return CGSize(width: recommendedRecipeCollectionView.bounds.height, height: recommendedRecipeCollectionView.bounds.height)
@@ -23,15 +21,13 @@ class RootViewController: UIViewController, UIScrollViewDelegate, RecipeRequeste
     
     var recommendedRecipes:Array<Recipe> = Array()
     var savedRecipes:Array<Recipe> = Array()
+    var searchRecipes:Array<Recipe> = Array()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         setRecipes()
         
-     //   recipeRequester.recipeSearchRequest(keyword: "beefwewe");
-       
-       
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -48,10 +44,14 @@ class RootViewController: UIViewController, UIScrollViewDelegate, RecipeRequeste
     
     override func prepare(for segue: UIStoryboardSegue,
                  sender: Any?){
+        if segue.identifier == "search" {
+            let searchViewController = segue.destination as! SearchViewController
+            searchViewController.recipes = searchRecipes
+        }
         
     }
     
-    func setRecipes(){
+    private func setRecipes(){
         recipeRequester.delegate = self;
         recipeRequester.recipeRequest(type: RecipeRequestType.recommended , searchKey: nil)
         recipeRequester.recipeRequest(type: RecipeRequestType.saved , searchKey: nil)
@@ -79,7 +79,7 @@ class RootViewController: UIViewController, UIScrollViewDelegate, RecipeRequeste
     */
     // RecipeRequester delegate
     
-    func didGetRecipes(recipes:Array<Recipe>,type:RecipeRequestType){
+   internal func didGetRecipes(recipes:Array<Recipe>,type:RecipeRequestType){
         
         switch type {
         case .saved:
@@ -89,11 +89,20 @@ class RootViewController: UIViewController, UIScrollViewDelegate, RecipeRequeste
             recommendedRecipes = recipes
             recommendedRecipeCollectionView.reloadData()
         default:
-            break
+            searchRecipes = recipes
+            performSegue(withIdentifier: "search", sender: nil)
             
         }
     }
- 
+    
+    internal func didRemoveRecipes(type: RecipeType) {
+        switch type {
+        case .saved:
+            savedRecipeCollectionView.reloadData()
+        case .recommended:
+            recommendedRecipeCollectionView.reloadData()
+        }
+    }
     
     
     
@@ -154,16 +163,33 @@ class RootViewController: UIViewController, UIScrollViewDelegate, RecipeRequeste
         return recipeCellSize
     }
     
+    
+    // search bar delegate
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar){
+        
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar){
+        guard let key = searchBar.text else{
+            return
+        }
+        recipeRequester.recipeRequest(type: .search, searchKey: key)
+    }
+    
+    
     @IBAction func didDeleteButtonTouched(_ sender: UIButton) {
         
         let cell = sender.superview as! UICollectionViewCell
         let indexPath = savedRecipeCollectionView.indexPath(for: cell)!
-        savedRecipeCollectionView.deleteItems(at: [indexPath])
         let removedRecipe = savedRecipes[indexPath.row]
         
         savedRecipes.remove(at:indexPath.row)
-        RecipeStorage.sharedInstance.removeRecipe(recipe: removedRecipe)
+        recipeRequester.removeRecipe(recipe: removedRecipe, type: .saved)
     }
+    
+    
     
     
 }
