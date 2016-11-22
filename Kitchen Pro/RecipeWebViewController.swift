@@ -14,6 +14,7 @@ class RecipeWebViewController: UIViewController {
     var recipeTitle:String?
     @IBOutlet weak var recipeWebView: UIWebView!
     
+    @IBOutlet weak var navigationBar: UINavigationBar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,10 +24,8 @@ class RecipeWebViewController: UIViewController {
             recipeWebView.loadRequest(request)
         }
         
-        navigationItem.title = recipeTitle
-        
-
-        
+        navigationBar.topItem?.title = recipeTitle
+   
         
         // Do any additional setup after loading the view.
     }
@@ -36,6 +35,10 @@ class RecipeWebViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func dismiss(_ sender: Any) {
+        recipeWebView.stopLoading()
+        dismiss(animated: true, completion: nil)
+    }
 
     /*
     // MARK: - Navigation

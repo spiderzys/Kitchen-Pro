@@ -10,26 +10,30 @@
 
 import UIKit
 
-enum sortType {
+enum sortType:Int {
     
-    case relevance
-    case calorie
+    case relevance = 0
+    case calorie = 1
 }
 
-class SearchViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class SearchViewController: ViewController, UICollectionViewDelegate, UICollectionViewDataSource, RecipeRequesterDelegate, UICollectionViewDelegateFlowLayout {
     
-    var numOfColumns:CGFloat = 3
+    var numOfColumns:CGFloat = 2
     var recipes:Array<Recipe> = Array()
-    var sortedRecipes:Array<Recipe> = Array()
     
+    var selectedRecipe:Recipe?
+    
+    @IBOutlet weak var sortSegmentControl: UISegmentedControl!
     
     @IBOutlet weak var recipeCollectionView: UICollectionView!
+    
+    
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        sortRecipes(type: .relevance)
         
-        sortedRecipes = recipes
         // Do any additional setup after loading the view.
     }
     
@@ -39,7 +43,19 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
     }
     
     
+    override func prepare(for segue: UIStoryboardSegue,
+                          sender: Any?){
+        if (segue.identifier == "online") {
+            let recipeCell = sender as! UICollectionViewCell
+            let imageView = recipeCell.contentView.viewWithTag(10) as! UIImageView
+            
+            let recipeViewController = segue.destination as! RecipeViewController
+            recipeViewController.recipe = selectedRecipe!
+            recipeViewController.recipeImage = imageView.image
+        }
+    }
     
+   
     /*
      // MARK: - Navigation
      
@@ -51,63 +67,101 @@ class SearchViewController: UIViewController, UICollectionViewDelegate, UICollec
      */
     
     
+    
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int{
         
-        return sortedRecipes.count
+        return recipes.count
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
         
         let recipeCell = collectionView.dequeueReusableCell(withReuseIdentifier: "recipe", for: indexPath)
+        let calorieLabel = recipeCell.contentView.viewWithTag(11) as! UILabel
+        let servingLabel = recipeCell.contentView.viewWithTag(12) as! UILabel
+        let imageView = recipeCell.contentView.viewWithTag(10) as! UIImageView
+        let recipe = recipes[indexPath.row]
+        calorieLabel.text = String(recipe.calorie)
+        servingLabel.text = String(recipe.serving)
+        imageView.image = nil
+        let random = Int(arc4random_uniform(11))
+        if random > 8 {
+            RecipeRequester.sharedInstance.addRecipes(recipes: [recipe], type: .recommended)
+        }
+        
+        ImageLoader.sharedInstance.loadImage(url: URL(string: recipe.imageUrlString)!, completion: {image in
+            imageView.image = image
+        })
         
         return recipeCell
         
-        
-        
     }
     
     
-    // delegate protocol
+    // colletionview delegate protocol
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath){
-        
+        selectedRecipe = recipes[indexPath.row]
+        let recipeCell = collectionView.cellForItem(at: indexPath)
+        performSegue(withIdentifier: "online", sender: recipeCell)
     }
+    
+    
+    
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize{
         
-        return CGSize(width: collectionView.bounds.width/numOfColumns, height: collectionView.bounds.width/numOfColumns)
+        return CGSize(width: collectionView.bounds.width/numOfColumns, height: collectionView.bounds.width/numOfColumns*124/108)
+        
+    }
+    
+    // segment value changed
+    @IBAction func sortMethodChanged(_ sender: UISegmentedControl) {
+        
+        sortRecipes(type: sortType(rawValue: sender.selectedSegmentIndex)!)
         
     }
     
     
-    @IBAction func sortMethodChanged(_ sender: UISegmentedControl) {
+    
+    @IBAction func dismiss(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+   
+    
+    // collection
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar){
         
-        switch sender.selectedSegmentIndex {
-        case 0:
-            sortRecipes(type: .relevance)
-        case 1:
-            sortRecipes(type: .calorie)
-        default:
-            break
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar){
+        guard let key = searchBar.text else{
+            return
         }
-        
+        RecipeRequester.sharedInstance.recipeRequest(type: .search, searchKey: key)
+    }
+    
+    // Reciperequester delegate
+    func didGetRecipes(recipes:Array<Recipe>){
+        self.recipes = recipes
+        DispatchQueue.main.async {
+            self.sortRecipes(type: sortType(rawValue: self.sortSegmentControl.selectedSegmentIndex)!)
+            
+        }
     }
     
     private func sortRecipes(type:sortType){
         
         switch type {
         case .relevance:
-            sortedRecipes = recipes
+            recipes.sort{ $0.ingredients.count < $1.ingredients.count }
         case .calorie:
-            sortedRecipes.sort{ $0.calorie < $1.calorie }
+            recipes.sort{ $0.calorie < $1.calorie }
         }
-        
+        self.recipeCollectionView.reloadData()
     }
-    
-    
-    
 }

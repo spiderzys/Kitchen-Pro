@@ -19,11 +19,11 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    private func setBackground(){
+    func setBackground(){
         let backgroundImageView = UIImageView(frame: view.frame)
         backgroundImageView.image = UIImage(named: "launch")
         backgroundImageView.contentMode = .scaleAspectFill
-        backgroundImageView.alpha = 0.16
+        backgroundImageView.alpha = 0.12
         view.addSubview(backgroundImageView)
         view.sendSubview(toBack: backgroundImageView)
         

@@ -7,25 +7,33 @@
 // https://api.edamam.com/search?q=chicken&app_id=ac0ab8e9&app_key=fb39a454934a7a5a74b8adcb3a8b3985&from=0&to=3&calories=gte%20591,%20lte%20722&health=alcohol-free
 
 import UIKit
+import RealmSwift
+import GoogleMobileAds
 
 class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
-
+    
     @IBOutlet weak var recommendedRecipeCollectionView: UICollectionView!
     @IBOutlet weak var savedRecipeCollectionView: UICollectionView!
-  
+    @IBOutlet weak var bannerView: GADBannerView!
+    
     let recipeRequester = RecipeRequester.sharedInstance
+    var selectedRecipe:Recipe?
     
     var recipeCellSize:CGSize {
         return CGSize(width: recommendedRecipeCollectionView.bounds.height, height: recommendedRecipeCollectionView.bounds.height)
     }
     
-    var recommendedRecipes:Array<Recipe> = Array()
-    var savedRecipes:Array<Recipe> = Array()
+    var recommendedRecipes:Results<Recipe> = RecipeRequester.sharedInstance.recommendedRecipes
+    var savedRecipes:Results<Recipe> = RecipeRequester.sharedInstance.savedRecipes
     var searchRecipes:Array<Recipe> = Array()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
+        bannerView.rootViewController = self
+        
+        let ADrequest = GADRequest()
+        bannerView.load(ADrequest)
         setRecipes()
         
         // Do any additional setup after loading the view, typically from a nib.
@@ -33,7 +41,7 @@ class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionV
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-       
+        
     }
     
     
@@ -43,70 +51,51 @@ class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionV
     }
     
     override func prepare(for segue: UIStoryboardSegue,
-                 sender: Any?){
+                          sender: Any?){
         if segue.identifier == "search" {
             let searchViewController = segue.destination as! SearchViewController
             searchViewController.recipes = searchRecipes
         }
-        
+        else if segue.identifier == "local" {
+            let recipeCell = sender as! UICollectionViewCell
+            let imageView = recipeCell.contentView.viewWithTag(100) as! UIImageView
+            let recipeViewController = segue.destination as! RecipeViewController
+            recipeViewController.recipe = selectedRecipe
+            recipeViewController.recipeImage = imageView.image
+        }
     }
     
     private func setRecipes(){
         recipeRequester.delegate = self;
-        recipeRequester.recipeRequest(type: RecipeRequestType.recommended , searchKey: nil)
-        recipeRequester.recipeRequest(type: RecipeRequestType.saved , searchKey: nil)
-        // kvo to observe
-    
-   //     addObserver(self, forKeyPath: #keyPath(recommendedRecipes), options: .new, context: nil)
-  //      addObserver(self, forKeyPath: #keyPath(savedRecipes), options: .new, context: nil)
-    }
-   /*
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?){
-        if(keyPath == #keyPath(recommendedRecipes)){
-            
-            recommendedRecipeCollectionView.reloadData()
+        if recommendedRecipes.count == 0 {
+            recipeRequester.recipeRequest(type: .recommended, searchKey: nil)
         }
-        else if (keyPath == #keyPath(savedRecipes)){
-            
-            savedRecipeCollectionView.reloadData()
-        }
-    }
-    
-    deinit {
-        removeObserver(self, forKeyPath: #keyPath(recommendedRecipes), context: nil)
-        removeObserver(self, forKeyPath: #keyPath(savedRecipes), context: nil)
-    }
-    */
-    // RecipeRequester delegate
-    
-   internal func didGetRecipes(recipes:Array<Recipe>,type:RecipeRequestType){
         
-        switch type {
-        case .saved:
-            savedRecipes = recipes
-            savedRecipeCollectionView.reloadData()
-        case .recommended:
-            recommendedRecipes = recipes
-            recommendedRecipeCollectionView.reloadData()
-        default:
-            searchRecipes = recipes
-            performSegue(withIdentifier: "search", sender: nil)
-            
-        }
-    }
-    
-    internal func didRemoveRecipes(type: RecipeType) {
-        switch type {
-        case .saved:
-            savedRecipeCollectionView.reloadData()
-        case .recommended:
-            recommendedRecipeCollectionView.reloadData()
-        }
     }
     
     
+    internal func didGetRecipes(recipes:Array<Recipe>){
+        
+        DispatchQueue.main.async {
+            self.searchRecipes = recipes
+            self.performSegue(withIdentifier: "search", sender: nil)
+        }
+    }
     
-    // collectionView data source 
+    internal func didUpdateRecipes(type: RecipeType) {
+        DispatchQueue.main.async {
+            switch type {
+            case .saved:
+                self.savedRecipeCollectionView.reloadData()
+            case .recommended:
+                self.recommendedRecipeCollectionView.reloadData()
+            }
+        }
+    }
+    
+    
+    
+    // collectionView data source
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int{
         return (collectionView == recommendedRecipeCollectionView) ? recommendedRecipes.count : savedRecipes.count
@@ -124,9 +113,9 @@ class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionV
             recipe = recommendedRecipes[indexPath.row]
             
         }
-        
+            
         else{
-
+            
             recipeCell = collectionView.dequeueReusableCell(withReuseIdentifier: "save", for: indexPath)
             recipe = savedRecipes[indexPath.row]
         }
@@ -136,13 +125,12 @@ class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionV
         titleLabel.text = recipe?.title
         
         let imageView = recipeCell!.contentView.viewWithTag(100) as! UIImageView
+        
+        
+        
         imageView.image = nil
         ImageLoader.sharedInstance.loadImage(url: URL(string: recipe!.imageUrlString)!, completion: {image in
-         //  if let cell = collectionView.cellForItem(at: indexPath) {
-          //    let imageView = cell.contentView.viewWithTag(100) as! UIImageView
-              imageView.image = image
-        //    }
-            
+            imageView.image = image
         })
         
         return recipeCell!
@@ -153,7 +141,17 @@ class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionV
     // collectionView delegate
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath){
-        
+    
+        if (collectionView == recommendedRecipeCollectionView){
+              selectedRecipe = recommendedRecipes[indexPath.row]
+        }
+        else{
+            selectedRecipe = savedRecipes[indexPath.row]
+        }
+
+        let recipeCell = collectionView.cellForItem(at: indexPath)
+       
+        performSegue(withIdentifier: "local", sender: recipeCell)
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -181,15 +179,11 @@ class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionV
     
     @IBAction func didDeleteButtonTouched(_ sender: UIButton) {
         
-        let cell = sender.superview as! UICollectionViewCell
-        let indexPath = savedRecipeCollectionView.indexPath(for: cell)!
-        let removedRecipe = savedRecipes[indexPath.row]
+        let recipeCell = sender.superview?.superview as! UICollectionViewCell
+        let indexPath = savedRecipeCollectionView.indexPath(for: recipeCell)!
+        recipeRequester.removeRecipes(recipes: [savedRecipes[indexPath.row]], type: .saved)
         
-        savedRecipes.remove(at:indexPath.row)
-        recipeRequester.removeRecipe(recipe: removedRecipe, type: .saved)
     }
-    
-    
     
     
 }

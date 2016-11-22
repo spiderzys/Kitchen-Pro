@@ -8,12 +8,13 @@
 
 import UIKit
 import Alamofire
+import RealmSwift
 
 protocol RecipeRequesterDelegate:class {
     
-    func didGetRecipes(recipes:Array<Recipe>,type:RecipeRequestType)
+    func didGetRecipes(recipes:Array<Recipe>)
     
-    func didRemoveRecipes(type:RecipeType)
+    func didUpdateRecipes(type:RecipeType)
     
     func didfailToGetRecipe(error:RecipeRequestError)
     
@@ -42,16 +43,13 @@ enum RecipeType:String {
 }
 
 class RecipeRequester {
+    let recommendedRecipes = RecipeStorage.sharedInstance.recipes.objects(Recipe.self).filter("recommended == true")
+    let savedRecipes = RecipeStorage.sharedInstance.recipes.objects(Recipe.self).filter("saved == true")
     
     static let sharedInstance = RecipeRequester()
     let apikey = "app_id=ac0ab8e9&app_key=fb39a454934a7a5a74b8adcb3a8b3985"
     let searchBaseString =  "https://api.edamam.com/search?"
     weak var delegate:RecipeRequesterDelegate?
-    
-    //  var health: [String:Bool]?
-    // var diet = ""
-    // var to = ""
-    
     
     
     // MARK: for search request
@@ -64,8 +62,6 @@ class RecipeRequester {
         }
         
         switch type {
-        case .saved:
-            savedRecipeRequest()
         case .search:
             recipeSearchRequest(keyword: searchKey, search:true)
         default:
@@ -99,9 +95,9 @@ class RecipeRequester {
     
     private func modifiedKeyword(keyword:String) -> String {
         
-       // var key = keyword.replacingOccurrences(of: ",", with: "+");
+        // var key = keyword.replacingOccurrences(of: ",", with: "+");
         return keyword.replacingOccurrences(of: " ", with: "-")
-       
+        
     }
     
     
@@ -127,9 +123,14 @@ class RecipeRequester {
             
             let recipes = self.processDownloadedRecipes(rawRecipeDicts: rawRecipeDicts)
             
-            let type:RecipeRequestType = search ? .search : .recommended
+            if(!search){
+                
+                self.addRecipes(recipes: recipes, type: .recommended)
+            }
+            else {
+                self.delegate?.didGetRecipes(recipes: recipes)
+            }
             
-            self.delegate?.didGetRecipes(recipes: recipes, type: type)
             
         }
     }
@@ -146,23 +147,33 @@ class RecipeRequester {
             
             let healthLabels = rawRecipe["healthLabels"] as! Array<String>
             if healthLabels.count > 0 {
-                recipe.healthLabels = healthLabels.reduce(""){text1, text2 in "\(text1)+\(text2)"}
+                
+                recipe.healthLabels = healthLabels.reduce(""){text1, text2 in "\(text1), \(text2)"}
                 recipe.healthLabels.remove(at: recipe.healthLabels.startIndex)
+                recipe.healthLabels = recipe.healthLabels.replacingOccurrences(of: "-", with: " ")
+            }
+            else{
+                recipe.healthLabels = "N/A"
             }
             
             let dietLabels = rawRecipe["dietLabels"] as! Array<String>
             if dietLabels.count > 0 {
                 
-                recipe.dietLabels = dietLabels.reduce(""){text1, text2 in "\(text1)+\(text2)"}
+                recipe.dietLabels = dietLabels.reduce(""){text1, text2 in "\(text1), \(text2)"}
                 recipe.dietLabels.remove(at: recipe.dietLabels.startIndex)
+                recipe.dietLabels = recipe.dietLabels.replacingOccurrences(of: "-", with: " ")
+            }
+            else {
+                recipe.dietLabels = "N/A"
             }
             
-            
+            recipe.source = rawRecipe["source"] as! String
             recipe.imageUrlString = rawRecipe["image"] as! String
             recipe.title = rawRecipe["label"] as! String
             recipe.urlString = rawRecipe["url"] as! String
-            recipe.calorie = (rawRecipe["calories"]?.floatValue)!
             
+            
+            recipe.calorie = Int(rawRecipe["calories"]!.floatValue)/recipe.serving
             let ingredients = rawRecipe["ingredientLines"] as! Array<String>
             for ingredient in ingredients {
                 let item = Ingredient()
@@ -179,62 +190,81 @@ class RecipeRequester {
     
     private func recipeRecommededRequest(){  // request recommended recipes
         
-        let recommendedRecipes = RecipeStorage.sharedInstance.recipes.objects(Recipe.self).filter("recommended == true")
-      
         
-        if recommendedRecipes.count > 0 {  // hold recomended recipes already
-            delegate?.didGetRecipes(recipes: recommendedRecipes, type: .recommended)
-            return
-        }
         let startIndex = Int(arc4random_uniform(90))  //generate 10 recommended recipes
         recipeSearchRequest(keyword: "beef,chicken", from: startIndex, to: startIndex+10, search:false)
         
     }
     
-    private func savedRecipeRequest(){   // request saved recipes
-        
-        let savedRecipes = Array(RecipeStorage.sharedInstance.recipes.objects(Recipe.self).filter("saved == true"))
-        delegate?.didGetRecipes(recipes: savedRecipes, type: .saved)
-        
-    }
     
     
-    func removeRecipe(recipe:Recipe, type:RecipeType){
-        let recipes = RecipeStorage.sharedInstance.recipes
-        switch type {
+    
+    
+    func removeRecipes(recipes:Array<Recipe>, type:RecipeType){
         
-        case .recommended:
-            try! recipes.write{
-               recipe.recommended = false
+        let recipeStorage = RecipeStorage.sharedInstance.recipes
+        for recipe in recipes{
+            switch type {
+                
+            case .recommended:
+                try! recipeStorage.write{
+                    recipe.recommended = false
+                }
+            case .saved:
+                try! recipeStorage.write{
+                    recipe.saved = false
+                }
             }
-        case .saved:
-            try! recipes.write{
-               recipe.saved = false
+            
+            if(!recipe.recommended && !recipe.saved) {
+                try! recipeStorage.write {
+                    recipeStorage.delete(recipe)
+                }
+                
             }
         }
-        
-        if(!recipe.recommended && !recipe.saved) {
-            recipes.delete(recipe)
+        delegate?.didUpdateRecipes(type: type)
+    }
+    func addRecipes(recipes:Array<Recipe>, type:RecipeType){
+        let recipeStorage = RecipeStorage.sharedInstance.recipes
+        for recipe in recipes{
+            switch type {
+                
+            case .recommended:
+                try! recipeStorage.write{
+                    recipe.recommended = true
+                }
+                if (recommendedRecipes.count >= 16){
+                    removeRecipes(recipes: [recommendedRecipes[0]] , type: .recommended)
+                }
+                
+            case .saved:
+                try! recipeStorage.write{
+                    recipe.saved = true
+                }
+                
+            }
+            
+            try! recipeStorage.write {
+                recipeStorage.add(recipe, update: true)
+            }
         }
-       
-        
+        delegate?.didUpdateRecipes(type: type)
         
     }
     
-    func addRecipe(recipe:Recipe, type:RecipeType){
-        let recipes = RecipeStorage.sharedInstance.recipes
-        try! recipes.write {
-            recipes.add(recipe)
-        }
-    }
-
     
     
 }
 
 extension RecipeRequesterDelegate {
+    
     func didfailToGetRecipe(error:RecipeRequestError){
         print(error)
+        
+    }
+    
+    func didUpdateRecipes(type:RecipeType){
         
     }
 }

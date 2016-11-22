@@ -15,22 +15,6 @@ class RecipeStorage {
     static let sharedInstance = RecipeStorage()
     let recipes = try! Realm()
     
-    func addRecipe(recipe:Recipe){
-        try! recipes.write {
-            recipes.add(recipe)
-        }
-        
-    }
-    
-    func removeRecipe(recipe:Recipe){
-        try! recipes.write {
-            recipes.delete(recipe)
-        }
-        
-    }
-
-    
-    
 }
 
 class Ingredient: Object {
@@ -40,19 +24,16 @@ class Ingredient: Object {
     
 }
 
-
 class Recipe:Object{
     
     
     dynamic var imageData = NSDate()
     dynamic var imageUrlString = ""
     
-
-    
     var ingredients = List<Ingredient>()
     dynamic var serving = 0
     dynamic var source = ""
-    dynamic var calorie: Float = 0;
+    dynamic var calorie:Int = 0
     dynamic var saved = false
     dynamic var recommended = false
     dynamic var healthLabels = ""
