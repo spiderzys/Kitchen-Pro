@@ -16,7 +16,7 @@ enum sortType:Int {
     case calorie = 1
 }
 
-class SearchViewController: ViewController, UICollectionViewDelegate, UICollectionViewDataSource, RecipeRequesterDelegate, UICollectionViewDelegateFlowLayout {
+class SearchViewController: ViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     var numOfColumns:CGFloat = 2
     var recipes:Array<Recipe> = Array()
@@ -26,8 +26,6 @@ class SearchViewController: ViewController, UICollectionViewDelegate, UICollecti
     @IBOutlet weak var sortSegmentControl: UISegmentedControl!
     
     @IBOutlet weak var recipeCollectionView: UICollectionView!
-    
-    
     
     override func viewDidLoad() {
         
@@ -54,7 +52,6 @@ class SearchViewController: ViewController, UICollectionViewDelegate, UICollecti
             recipeViewController.recipeImage = imageView.image
         }
     }
-    
    
     /*
      // MARK: - Navigation
@@ -65,8 +62,6 @@ class SearchViewController: ViewController, UICollectionViewDelegate, UICollecti
      // Pass the selected object to the new view controller.
      }
      */
-    
-    
     
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int{
@@ -87,7 +82,17 @@ class SearchViewController: ViewController, UICollectionViewDelegate, UICollecti
         imageView.image = nil
         let random = Int(arc4random_uniform(11))
         if random > 8 {
-            RecipeRequester.sharedInstance.addRecipes(recipes: [recipe], type: .recommended)
+            DispatchQueue.main.async {
+                let recipes = RecipeStorage.sharedInstance.recipes.objects(Recipe.self).filter("urlString =  %@",recipe.urlString)
+                if recipes.count != 0 {
+                    RecipeRequester.sharedInstance.addRecipes(recipes: [recipes[0]], type: .recommended)
+                }
+                else{
+                    RecipeRequester.sharedInstance.addRecipes(recipes: [recipe], type: .recommended)
+                }
+                
+            }
+            
         }
         
         ImageLoader.sharedInstance.loadImage(url: URL(string: recipe.imageUrlString)!, completion: {image in
@@ -125,14 +130,15 @@ class SearchViewController: ViewController, UICollectionViewDelegate, UICollecti
         
     }
     
-    
-    
     @IBAction func dismiss(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: {
+            RecipeRequester.sharedInstance.removeIdleRecipes()
+            
+        })
+        
     }
-   
     
-    // collection
+    // searchbar delegate currently not availabel
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar){
         
         searchBar.resignFirstResponder()

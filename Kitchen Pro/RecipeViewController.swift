@@ -27,6 +27,9 @@ class RecipeViewController: UIViewController, UITableViewDataSource, BEMCheckBox
     
     @IBOutlet weak var navigationBar: UINavigationBar!
     
+    @IBOutlet weak var saveButton: UIButton!
+    
+    
     var recipe:Recipe?
     
     var recipeImage:UIImage?
@@ -53,7 +56,7 @@ class RecipeViewController: UIViewController, UITableViewDataSource, BEMCheckBox
            
         }
     }
-    func setRecipe(){
+    private func setRecipe(){
         let recipes = RecipeStorage.sharedInstance.recipes.objects(Recipe.self).filter("urlString =  %@",recipe!.urlString)
         if recipes.count == 1 {
             recipe = recipes[0]
@@ -64,7 +67,17 @@ class RecipeViewController: UIViewController, UITableViewDataSource, BEMCheckBox
         titleLabel.text = String(recipe!.source)
         navigationBar.topItem?.title = recipe!.title
         recipeImageView.image = recipeImage
+        if recipe!.saved {
+            blurSaveButton()
+        }
         
+    }
+    
+    private func blurSaveButton(){
+        saveButton.alpha = 0.26
+    }
+    private func clearSaveButton(){
+        saveButton.alpha = 1
     }
 
 
@@ -108,31 +121,27 @@ class RecipeViewController: UIViewController, UITableViewDataSource, BEMCheckBox
         
         if recipe!.saved {
             RecipeRequester.sharedInstance.removeRecipes(recipes: [recipe!], type: .saved)
-            sender.setImage(UIImage(named: "Clear"), for: .normal)
-            sender.setBackgroundImage(UIImage(named: "Clear"), for: .normal)
+            clearSaveButton()
+            
         }
         else {
             RecipeRequester.sharedInstance.addRecipes(recipes: [recipe!], type: .saved)
-            sender.setBackgroundImage(UIImage(named: "Plus"), for: .normal)
-            sender.setImage(UIImage(named: "Plus"), for: .normal)
+            blurSaveButton()
         }
         
     }
     
     func didTap(_ checkBox: BEMCheckBox) {
-      //  print(checkBox.on)
-        //checkBox.on = !(checkBox.on)
-      //  print(checkBox.on)
+      
         let ingredientCell = checkBox.superview?.superview as! UITableViewCell
         try! RecipeStorage.sharedInstance.recipes.write {
             recipe!.ingredients[ingredientTableView.indexPath(for: ingredientCell)!.row].prepared = !recipe!.ingredients[ingredientTableView.indexPath(for: ingredientCell)!.row].prepared
         }
         
-        
         if (recipe!.saved) {
-            try! RecipeStorage.sharedInstance.recipes.write {
-                RecipeRequester.sharedInstance.addRecipes(recipes: [recipe!], type: .saved)
-            }
+            
+            RecipeRequester.sharedInstance.addRecipes(recipes: [recipe!], type: .saved)
+            
         }
     }
     

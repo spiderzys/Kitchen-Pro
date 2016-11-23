@@ -27,9 +27,7 @@ class Ingredient: Object {
 class Recipe:Object{
     
     
-    dynamic var imageData = NSDate()
     dynamic var imageUrlString = ""
-    
     var ingredients = List<Ingredient>()
     dynamic var serving = 0
     dynamic var source = ""

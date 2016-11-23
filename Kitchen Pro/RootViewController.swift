@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift
 import GoogleMobileAds
 
-class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
+class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate {
     
     @IBOutlet weak var recommendedRecipeCollectionView: UICollectionView!
     @IBOutlet weak var savedRecipeCollectionView: UICollectionView!
@@ -19,31 +19,28 @@ class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionV
     let recipeRequester = RecipeRequester.sharedInstance
     var selectedRecipe:Recipe?
     
+    
     var recipeCellSize:CGSize {
         return CGSize(width: recommendedRecipeCollectionView.bounds.height, height: recommendedRecipeCollectionView.bounds.height)
     }
-    
-    var recommendedRecipes:Results<Recipe> = RecipeRequester.sharedInstance.recommendedRecipes
-    var savedRecipes:Results<Recipe> = RecipeRequester.sharedInstance.savedRecipes
+    let recommendedRecipes = RecipeRequester.sharedInstance.recommendedRecipes
+    let savedRecipes = RecipeRequester.sharedInstance.savedRecipes
     var searchRecipes:Array<Recipe> = Array()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        bannerView.rootViewController = self
-        
-        let ADrequest = GADRequest()
-        bannerView.load(ADrequest)
+        loadBanner()
         setRecipes()
         
         // Do any additional setup after loading the view, typically from a nib.
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        recommendedRecipeCollectionView.reloadData()
+        savedRecipeCollectionView.reloadData()
     }
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -65,6 +62,13 @@ class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionV
         }
     }
     
+    private func loadBanner(){
+        bannerView.rootViewController = self
+        
+        let ADrequest = GADRequest()
+        bannerView.load(ADrequest)
+    }
+    
     private func setRecipes(){
         recipeRequester.delegate = self;
         if recommendedRecipes.count == 0 {
@@ -74,23 +78,36 @@ class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionV
     }
     
     
-    internal func didGetRecipes(recipes:Array<Recipe>){
+    internal func didGetRecipes(recipes:Array<Recipe>,type:RecipeRequestType){
         
-        DispatchQueue.main.async {
-            self.searchRecipes = recipes
-            self.performSegue(withIdentifier: "search", sender: nil)
+        switch type {
+        case .search:
+            DispatchQueue.main.async {
+                self.searchRecipes = recipes
+                self.performSegue(withIdentifier: "search", sender: nil)
+            }
+        case .recommended:
+            recommendedRecipeCollectionView.reloadData()
+        case .saved:
+            savedRecipeCollectionView.reloadData()
+            
         }
+        
+        
     }
     
-    internal func didUpdateRecipes(type: RecipeType) {
-        DispatchQueue.main.async {
-            switch type {
-            case .saved:
-                self.savedRecipeCollectionView.reloadData()
-            case .recommended:
-                self.recommendedRecipeCollectionView.reloadData()
-            }
+    
+    func didfailToGetRecipe(error:RecipeRequestError){
+        var message = "No return, check your input and network "
+        switch error {
+        case .response_error:
+           message = "no network"
+        case .hits_error:
+           message = "no return for these ingredients"
+        default:
+            break
         }
+        showAlert(message: message)
     }
     
     
@@ -125,9 +142,6 @@ class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionV
         titleLabel.text = recipe?.title
         
         let imageView = recipeCell!.contentView.viewWithTag(100) as! UIImageView
-        
-        
-        
         imageView.image = nil
         ImageLoader.sharedInstance.loadImage(url: URL(string: recipe!.imageUrlString)!, completion: {image in
             imageView.image = image
@@ -141,16 +155,16 @@ class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionV
     // collectionView delegate
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath){
-    
+        
         if (collectionView == recommendedRecipeCollectionView){
-              selectedRecipe = recommendedRecipes[indexPath.row]
+            selectedRecipe = recommendedRecipes[indexPath.row]
         }
         else{
             selectedRecipe = savedRecipes[indexPath.row]
         }
-
+        
         let recipeCell = collectionView.cellForItem(at: indexPath)
-       
+        
         performSegue(withIdentifier: "local", sender: recipeCell)
     }
     
@@ -176,14 +190,20 @@ class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionV
         recipeRequester.recipeRequest(type: .search, searchKey: key)
     }
     
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+         searchBar.resignFirstResponder()
+    }
+    
     
     @IBAction func didDeleteButtonTouched(_ sender: UIButton) {
         
         let recipeCell = sender.superview?.superview as! UICollectionViewCell
         let indexPath = savedRecipeCollectionView.indexPath(for: recipeCell)!
         recipeRequester.removeRecipes(recipes: [savedRecipes[indexPath.row]], type: .saved)
-        
+        savedRecipeCollectionView.reloadData()
     }
+    
+
     
     
 }

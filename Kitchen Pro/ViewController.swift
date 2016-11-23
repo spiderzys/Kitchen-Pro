@@ -28,6 +28,16 @@ class ViewController: UIViewController {
         view.sendSubview(toBack: backgroundImageView)
         
     }
+    
+    func showAlert(message:String){
+        let alertController = UIAlertController(title: nil, message:message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "Ok", style: .cancel) { (action) in
+             alertController.dismiss(animated: true, completion: nil)
+        }
+        alertController.addAction(action)
+        self.present(alertController, animated: true, completion:nil)
+        
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

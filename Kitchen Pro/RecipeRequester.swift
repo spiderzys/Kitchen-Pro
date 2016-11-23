@@ -12,11 +12,10 @@ import RealmSwift
 
 protocol RecipeRequesterDelegate:class {
     
-    func didGetRecipes(recipes:Array<Recipe>)
-    
-    func didUpdateRecipes(type:RecipeType)
+    func didGetRecipes(recipes:Array<Recipe>,type:RecipeRequestType)
     
     func didfailToGetRecipe(error:RecipeRequestError)
+    
     
 }
 
@@ -45,6 +44,7 @@ enum RecipeType:String {
 class RecipeRequester {
     let recommendedRecipes = RecipeStorage.sharedInstance.recipes.objects(Recipe.self).filter("recommended == true")
     let savedRecipes = RecipeStorage.sharedInstance.recipes.objects(Recipe.self).filter("saved == true")
+    let removeRecipes = RecipeStorage.sharedInstance.recipes.objects(Recipe.self).filter("saved == false AND recommended == false")
     
     static let sharedInstance = RecipeRequester()
     let apikey = "app_id=ac0ab8e9&app_key=fb39a454934a7a5a74b8adcb3a8b3985"
@@ -126,10 +126,12 @@ class RecipeRequester {
             if(!search){
                 
                 self.addRecipes(recipes: recipes, type: .recommended)
+                self.delegate?.didGetRecipes(recipes: recipes, type: .recommended)
             }
             else {
-                self.delegate?.didGetRecipes(recipes: recipes)
+                self.delegate?.didGetRecipes(recipes: recipes, type: .search)
             }
+            
             
             
         }
@@ -202,54 +204,75 @@ class RecipeRequester {
     
     func removeRecipes(recipes:Array<Recipe>, type:RecipeType){
         
+        
         let recipeStorage = RecipeStorage.sharedInstance.recipes
         for recipe in recipes{
+            
             switch type {
                 
             case .recommended:
                 try! recipeStorage.write{
                     recipe.recommended = false
                 }
+                
+                
             case .saved:
                 try! recipeStorage.write{
                     recipe.saved = false
+                    
+                    
                 }
-            }
-            
-            if(!recipe.recommended && !recipe.saved) {
-                try! recipeStorage.write {
-                    recipeStorage.delete(recipe)
-                }
+               
                 
             }
+            try! recipeStorage.write {
+                recipeStorage.add(recipe, update: true)
+            }
+            
         }
-        delegate?.didUpdateRecipes(type: type)
+        
+        
+        
     }
     func addRecipes(recipes:Array<Recipe>, type:RecipeType){
         let recipeStorage = RecipeStorage.sharedInstance.recipes
+        
+        
         for recipe in recipes{
+    
             switch type {
                 
             case .recommended:
+                
                 try! recipeStorage.write{
                     recipe.recommended = true
+                    recipeStorage.add(recipe, update: true)
                 }
-                if (recommendedRecipes.count >= 16){
-                    removeRecipes(recipes: [recommendedRecipes[0]] , type: .recommended)
+                if (recommendedRecipes.count >= 20){
+                    
+                    removeRecipes(recipes: [recommendedRecipes.first!], type: .recommended)
+                    
                 }
                 
             case .saved:
                 try! recipeStorage.write{
                     recipe.saved = true
+                    recipeStorage.add(recipe, update: true)
                 }
                 
             }
             
-            try! recipeStorage.write {
-                recipeStorage.add(recipe, update: true)
+            
+        }
+        
+    }
+    
+    func removeIdleRecipes(){
+        if(removeRecipes.count > 0){
+            try! RecipeStorage.sharedInstance.recipes.write {
+                RecipeStorage.sharedInstance.recipes.delete(removeRecipes)
             }
         }
-        delegate?.didUpdateRecipes(type: type)
         
     }
     
@@ -264,9 +287,7 @@ extension RecipeRequesterDelegate {
         
     }
     
-    func didUpdateRecipes(type:RecipeType){
-        
-    }
+    
 }
 
 
