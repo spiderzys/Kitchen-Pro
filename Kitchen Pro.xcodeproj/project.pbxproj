@@ -18,7 +18,6 @@
 		6981464A1DDBB50200CC9657 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 698146491DDBB50200CC9657 /* Assets.xcassets */; };
 		6981464D1DDBB50200CC9657 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6981464B1DDBB50200CC9657 /* LaunchScreen.storyboard */; };
 		6981BE121DDE80D200C1201E /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6981BE111DDE80D200C1201E /* ImageLoader.swift */; };
-		6999DB2B1DE92F03005B4ACE /* OptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6999DB2A1DE92F03005B4ACE /* OptionViewController.swift */; };
 		699ACF0E1DE78FDE0023261F /* Kitchen_ProTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699ACF0D1DE78FDE0023261F /* Kitchen_ProTests.swift */; };
 		69D6B5F21DE387AE002D5DC4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D6B5F11DE387AE002D5DC4 /* ViewController.swift */; };
 		B44E51FEDCEEA7C10AB49D6A /* Pods_Kitchen_Pro.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7444794BE40252784681922F /* Pods_Kitchen_Pro.framework */; };
@@ -48,7 +47,6 @@
 		6981464C1DDBB50200CC9657 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6981464E1DDBB50200CC9657 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6981BE111DDE80D200C1201E /* ImageLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
-		6999DB2A1DE92F03005B4ACE /* OptionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionViewController.swift; sourceTree = "<group>"; };
 		699ACF0B1DE78FDE0023261F /* Kitchen ProTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Kitchen ProTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		699ACF0D1DE78FDE0023261F /* Kitchen_ProTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kitchen_ProTests.swift; sourceTree = "<group>"; };
 		699ACF0F1DE78FDE0023261F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -107,7 +105,6 @@
 				69D6B5F11DE387AE002D5DC4 /* ViewController.swift */,
 				698146461DDBB50200CC9657 /* Main.storyboard */,
 				698146441DDBB50200CC9657 /* RootViewController.swift */,
-				6999DB2A1DE92F03005B4ACE /* OptionViewController.swift */,
 				691EDFF21DDBC8D6005C3CA0 /* SearchViewController.swift */,
 				691EDFF41DDBDA1A005C3CA0 /* RecipeViewController.swift */,
 				697702271DE0F01400F975B9 /* RecipeWebViewController.swift */,
@@ -301,7 +298,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				69D6B5F21DE387AE002D5DC4 /* ViewController.swift in Sources */,
-				6999DB2B1DE92F03005B4ACE /* OptionViewController.swift in Sources */,
 				691EDFF51DDBDA1A005C3CA0 /* RecipeViewController.swift in Sources */,
 				691EDFF71DDBDBB5005C3CA0 /* RecipeRequester.swift in Sources */,
 				697702281DE0F01400F975B9 /* RecipeWebViewController.swift in Sources */,

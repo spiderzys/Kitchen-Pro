@@ -15,6 +15,8 @@ class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionV
     @IBOutlet weak var recommendedRecipeCollectionView: UICollectionView!
     @IBOutlet weak var savedRecipeCollectionView: UICollectionView!
     @IBOutlet weak var bannerView: GADBannerView!
+    @IBOutlet weak var optionView: UIView!
+    
     
     let recipeRequester = RecipeRequester.sharedInstance
     var selectedRecipe:Recipe?
@@ -30,7 +32,7 @@ class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionV
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadBanner()
+     //   loadBanner()
         setRecipes()
         
         // Do any additional setup after loading the view, typically from a nib.
@@ -205,6 +207,15 @@ class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionV
     }
     
 
+    @IBAction func didOptionShowButtonTouched(_ sender: UIButton) {
+        optionView.isHidden = false
+        
+    }
+    
+    @IBAction func didOptionHideButtonTouched(_ sender: UIButton) {
+        optionView.isHidden = true
+     
+    }
     
     
 }
