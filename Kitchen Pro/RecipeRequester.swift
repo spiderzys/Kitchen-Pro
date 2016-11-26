@@ -50,6 +50,7 @@ class RecipeRequester {
     let apikey = "app_id=ac0ab8e9&app_key=fb39a454934a7a5a74b8adcb3a8b3985"
     let searchBaseString =  "https://api.edamam.com/search?"
     weak var delegate:RecipeRequesterDelegate?
+    var filter = ""
     
     
     // MARK: for search request
