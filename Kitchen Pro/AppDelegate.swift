@@ -7,8 +7,8 @@
 //
 
 import UIKit
-import RealmSwift
 import GoogleMobileAds
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 

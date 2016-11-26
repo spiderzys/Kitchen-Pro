@@ -144,6 +144,7 @@ class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionV
         let imageView = recipeCell!.contentView.viewWithTag(100) as! UIImageView
         imageView.image = nil
         ImageLoader.sharedInstance.loadImage(url: URL(string: recipe!.imageUrlString)!, completion: {image in
+            
             imageView.image = image
         })
         
