@@ -208,12 +208,20 @@ class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionV
     
 
     @IBAction func didOptionShowButtonTouched(_ sender: UIButton) {
-        optionView.isHidden = false
+      
+        
+        UIView.transition(with: optionView, duration: 0.5, options: .transitionCurlDown, animations: {
+            self.optionView.isHidden = false
+            }, completion: nil)
+        
+        
         
     }
     
     @IBAction func didOptionHideButtonTouched(_ sender: UIButton) {
-        optionView.isHidden = true
+        UIView.transition(with: optionView, duration: 0.5, options: .transitionCurlUp, animations: {
+            self.optionView.isHidden = true
+        }, completion: nil)
      
     }
     

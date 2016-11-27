@@ -19,6 +19,10 @@ protocol RecipeRequesterDelegate:class {
     
 }
 
+enum HealthLabel: String{
+    case Alcohol_Free = "alcohol-free"
+}
+
 enum RecipeRequestError:String {
     case key_null = "no input for search"
     case response_error = "no response"

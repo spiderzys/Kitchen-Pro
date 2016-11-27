@@ -225,7 +225,7 @@
                                         <rect key="frame" x="98" y="77" width="51" height="31"/>
                                         <color key="onTintColor" red="0.59565355330000003" green="0.42300979" blue="0.38428139109999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </switch>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Low-Sodium" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dd1-zG-GA1">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="High Protein" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dd1-zG-GA1">
                                         <rect key="frame" x="160" y="82" width="97" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="u93-xd-56b"/>
@@ -277,7 +277,7 @@
                                             <action selector="didOptionHideButtonTouched:" destination="BYZ-38-t0r" eventType="touchUpInside" id="BiW-O3-qgB"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Egg Free" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zpv-Qe-m7M">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vegetarian" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zpv-Qe-m7M">
                                         <rect key="frame" x="160" y="169" width="97" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="kOs-Ke-qGU"/>
@@ -290,7 +290,7 @@
                                         <rect key="frame" x="258" y="164" width="51" height="31"/>
                                         <color key="onTintColor" red="0.59565355330000003" green="0.42300979" blue="0.38428139109999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </switch>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Milk Free" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="stO-Rt-9FR">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vegan" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="stO-Rt-9FR">
                                         <rect key="frame" x="0.0" y="169" width="97" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="bUw-YF-2EF"/>
@@ -316,7 +316,7 @@
                                         <rect key="frame" x="98" y="201" width="51" height="31"/>
                                         <color key="onTintColor" red="0.59565355330000003" green="0.42300979" blue="0.38428139109999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </switch>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wheat Free" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EmY-RS-UnJ">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sugar Conscious" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EmY-RS-UnJ">
                                         <rect key="frame" x="0.0" y="243" width="97" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="ZKA-4X-2Ie"/>
@@ -342,7 +342,7 @@
                                         <rect key="frame" x="258" y="201" width="51" height="31"/>
                                         <color key="onTintColor" red="0.59565355330000003" green="0.42300979" blue="0.38428139109999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </switch>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Diary Free" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YJj-61-3Ld">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alcohol Free" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YJj-61-3Ld">
                                         <rect key="frame" x="160" y="243" width="97" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="0Kx-Gf-q3x"/>
@@ -465,7 +465,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-553" y="-11"/>
+            <point key="canvasLocation" x="-591" y="-11"/>
         </scene>
         <!--Search View Controller-->
         <scene sceneID="g2v-UU-Ahx">
@@ -479,8 +479,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Attribution" translatesAutoresizingMaskIntoConstraints="NO" id="FH3-XB-qas">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="33"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="33" id="xoS-PO-A6h"/>
+                                </constraints>
+                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NNk-1X-XjJ">
-                                <rect key="frame" x="4" y="30" width="22.5" height="22.5"/>
+                                <rect key="frame" x="4" y="35" width="22.5" height="22.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="NNk-1X-XjJ" secondAttribute="height" id="k2j-f3-WWR"/>
                                 </constraints>
@@ -490,7 +496,7 @@
                                 </connections>
                             </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Gye-ff-2cl">
-                                <rect key="frame" x="0.0" y="58.5" width="320" height="509.5"/>
+                                <rect key="frame" x="0.0" y="63.5" width="320" height="504.5"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="Ape-xv-Kw0">
                                     <size key="itemSize" width="112" height="130"/>
@@ -572,7 +578,7 @@
                                 </connections>
                             </collectionView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="o7s-A7-SQY">
-                                <rect key="frame" x="34.5" y="30" width="251" height="23.5"/>
+                                <rect key="frame" x="34.5" y="35" width="251" height="23.5"/>
                                 <segments>
                                     <segment title="Less Ingredients"/>
                                     <segment title="Calorie per Serving"/>
@@ -588,13 +594,16 @@
                             <constraint firstItem="Gye-ff-2cl" firstAttribute="leading" secondItem="KsJ-r5-vJg" secondAttribute="leading" id="1Ta-45-o0x"/>
                             <constraint firstItem="MjL-4w-O53" firstAttribute="top" secondItem="Gye-ff-2cl" secondAttribute="bottom" id="3fY-0g-Hhk"/>
                             <constraint firstAttribute="trailing" secondItem="Gye-ff-2cl" secondAttribute="trailing" id="3qk-XZ-daF"/>
+                            <constraint firstItem="FH3-XB-qas" firstAttribute="top" secondItem="KsJ-r5-vJg" secondAttribute="top" id="AcZ-Pf-hR8"/>
+                            <constraint firstItem="o7s-A7-SQY" firstAttribute="top" secondItem="FH3-XB-qas" secondAttribute="bottom" constant="2" id="Ikx-Pl-0kE"/>
                             <constraint firstItem="o7s-A7-SQY" firstAttribute="leading" secondItem="NNk-1X-XjJ" secondAttribute="trailing" constant="8" id="KfQ-UH-b5a"/>
-                            <constraint firstItem="NNk-1X-XjJ" firstAttribute="top" secondItem="L5E-36-bMZ" secondAttribute="bottom" constant="10" id="PYa-2B-9Zq"/>
-                            <constraint firstItem="o7s-A7-SQY" firstAttribute="top" secondItem="L5E-36-bMZ" secondAttribute="bottom" constant="10" id="U56-q9-Ou6"/>
                             <constraint firstItem="o7s-A7-SQY" firstAttribute="height" secondItem="NNk-1X-XjJ" secondAttribute="height" id="WGY-el-9hF"/>
+                            <constraint firstAttribute="trailing" secondItem="FH3-XB-qas" secondAttribute="trailing" id="WGx-cE-zfz"/>
                             <constraint firstItem="NNk-1X-XjJ" firstAttribute="leading" secondItem="KsJ-r5-vJg" secondAttribute="leading" constant="4" id="WzA-Zq-EdA"/>
                             <constraint firstItem="o7s-A7-SQY" firstAttribute="centerX" secondItem="KsJ-r5-vJg" secondAttribute="centerX" id="eJ0-Kb-ito"/>
+                            <constraint firstItem="o7s-A7-SQY" firstAttribute="bottom" secondItem="NNk-1X-XjJ" secondAttribute="bottom" id="hg3-yE-RE3"/>
                             <constraint firstItem="o7s-A7-SQY" firstAttribute="height" secondItem="KsJ-r5-vJg" secondAttribute="height" multiplier="0.04" id="iX1-J8-A4a"/>
+                            <constraint firstItem="FH3-XB-qas" firstAttribute="leading" secondItem="KsJ-r5-vJg" secondAttribute="leading" id="wLC-Tx-2Q4"/>
                             <constraint firstItem="Gye-ff-2cl" firstAttribute="top" secondItem="o7s-A7-SQY" secondAttribute="bottom" constant="6" id="xUL-no-Vj9"/>
                         </constraints>
                     </view>
@@ -606,7 +615,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0NF-Fg-CJk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="316.875" y="-10.56338028169014"/>
+            <point key="canvasLocation" x="91.875" y="-19.014084507042252"/>
         </scene>
         <!--Delegate-->
         <scene sceneID="hKk-gt-FiY">
@@ -884,6 +893,7 @@
     </scenes>
     <resources>
         <image name="Arrow" width="25" height="25"/>
+        <image name="Attribution" width="150" height="33"/>
         <image name="Bookmark" width="100" height="100"/>
         <image name="Calorie" width="100" height="100"/>
         <image name="Delete" width="100" height="100"/>
