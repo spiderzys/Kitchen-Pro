@@ -63,7 +63,7 @@ class RecipeViewController: UIViewController, UITableViewDataSource, BEMCheckBox
         }
         servingLabel.text = String(recipe!.serving)
         calorieLabel.text = String(recipe!.calorie)
-        recipeLabel.text = "Health: " + recipe!.dietLabels + "\nDiet: " + recipe!.healthLabels
+        recipeLabel.text = "Diet: " + recipe!.dietLabels + "\nHealth: " + recipe!.healthLabels
         titleLabel.text = String(recipe!.source)
         navigationBar.topItem?.title = recipe!.title
         recipeImageView.image = recipeImage

@@ -15,7 +15,7 @@
         <!--Root View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" userLabel="Root View Controller" customClass="RootViewController" customModule="Kitchen_Pro" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" userLabel="Root View Controller" customClass="RootViewController" customModule="Kitchen_Go" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -419,6 +419,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="OptionButton" destination="eda-Mj-zLW" id="Peb-uh-ndr"/>
                         <outlet property="bannerView" destination="Lqo-R6-0QT" id="Tas-7W-9ki"/>
                         <outlet property="optionView" destination="lDl-EE-PaJ" id="bTs-Xu-eOQ"/>
                         <outlet property="recommendedRecipeCollectionView" destination="ZVB-Ch-EMF" id="cU9-C1-etm"/>
@@ -429,12 +430,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-591" y="-11"/>
+            <point key="canvasLocation" x="-592.5" y="-11.619718309859156"/>
         </scene>
         <!--Search View Controller-->
         <scene sceneID="g2v-UU-Ahx">
             <objects>
-                <viewController id="pPH-jy-7wk" customClass="SearchViewController" customModule="Kitchen_Pro" sceneMemberID="viewController">
+                <viewController id="pPH-jy-7wk" customClass="SearchViewController" customModule="Kitchen_Go" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="L5E-36-bMZ"/>
                         <viewControllerLayoutGuide type="bottom" id="MjL-4w-O53"/>
@@ -584,7 +585,7 @@
         <!--Delegate-->
         <scene sceneID="hKk-gt-FiY">
             <objects>
-                <viewController id="hLI-Hw-0Zh" customClass="RecipeViewController" customModule="Kitchen_Pro" sceneMemberID="viewController">
+                <viewController id="hLI-Hw-0Zh" customClass="RecipeViewController" customModule="Kitchen_Go" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Q8U-oc-g4K"/>
                         <viewControllerLayoutGuide type="bottom" id="Rip-g5-Ji3"/>
@@ -803,7 +804,7 @@
         <!--Recipe Web View Controller-->
         <scene sceneID="oe8-rU-sXV">
             <objects>
-                <viewController id="msn-7y-jrT" customClass="RecipeWebViewController" customModule="Kitchen_Pro" sceneMemberID="viewController">
+                <viewController id="msn-7y-jrT" customClass="RecipeWebViewController" customModule="Kitchen_Go" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="NJf-Qm-WOy"/>
                         <viewControllerLayoutGuide type="bottom" id="dqQ-jZ-8ei"/>
@@ -867,7 +868,7 @@
         <image name="Tool" width="419" height="120"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="s4F-Q7-wJM"/>
+        <segue reference="BIG-Bx-MBi"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.5999699235" green="0.39971703289999999" blue="0.19907021520000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

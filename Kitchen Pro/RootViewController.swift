@@ -17,6 +17,7 @@ class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionV
     @IBOutlet weak var bannerView: GADBannerView!
     @IBOutlet weak var optionView: UIView!
     
+    @IBOutlet weak var OptionButton: UIButton!
 
     
     
@@ -33,10 +34,15 @@ class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionV
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        #if PRO
+            setSwitches()
+        #else
+            loadBanner()
+            OptionButton.isHidden = true
+        #endif
      //   loadBanner()
         setRecipes()
-        setSwitches()
+        
         
         // Do any additional setup after loading the view, typically from a nib.
     }

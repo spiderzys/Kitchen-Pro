@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Kitchen Pro copy.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>8</integer>
+		</dict>
 		<key>Kitchen Pro.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -13,6 +18,11 @@
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>6981463E1DDBB50200CC9657</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>699A02681DEBF0C900471B3D</key>
 		<dict>
 			<key>primary</key>
 			<true/>

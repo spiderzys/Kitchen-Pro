@@ -18,6 +18,19 @@
 		6981464A1DDBB50200CC9657 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 698146491DDBB50200CC9657 /* Assets.xcassets */; };
 		6981464D1DDBB50200CC9657 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6981464B1DDBB50200CC9657 /* LaunchScreen.storyboard */; };
 		6981BE121DDE80D200C1201E /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6981BE111DDE80D200C1201E /* ImageLoader.swift */; };
+		699A026B1DEBF0C900471B3D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D6B5F11DE387AE002D5DC4 /* ViewController.swift */; };
+		699A026C1DEBF0C900471B3D /* RecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691EDFF41DDBDA1A005C3CA0 /* RecipeViewController.swift */; };
+		699A026D1DEBF0C900471B3D /* RecipeRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691EDFF61DDBDBB5005C3CA0 /* RecipeRequester.swift */; };
+		699A026E1DEBF0C900471B3D /* RecipeWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697702271DE0F01400F975B9 /* RecipeWebViewController.swift */; };
+		699A026F1DEBF0C900471B3D /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691EDFF21DDBC8D6005C3CA0 /* SearchViewController.swift */; };
+		699A02701DEBF0C900471B3D /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698146441DDBB50200CC9657 /* RootViewController.swift */; };
+		699A02711DEBF0C900471B3D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698146421DDBB50200CC9657 /* AppDelegate.swift */; };
+		699A02721DEBF0C900471B3D /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6981BE111DDE80D200C1201E /* ImageLoader.swift */; };
+		699A02731DEBF0C900471B3D /* RecipeStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691EDFF81DDBDBE0005C3CA0 /* RecipeStorage.swift */; };
+		699A02751DEBF0C900471B3D /* Pods_Kitchen_Pro.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7444794BE40252784681922F /* Pods_Kitchen_Pro.framework */; };
+		699A02771DEBF0C900471B3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6981464B1DDBB50200CC9657 /* LaunchScreen.storyboard */; };
+		699A02781DEBF0C900471B3D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 698146491DDBB50200CC9657 /* Assets.xcassets */; };
+		699A02811DEBF5A900471B3D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 698146461DDBB50200CC9657 /* Main.storyboard */; };
 		699ACF0E1DE78FDE0023261F /* Kitchen_ProTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 699ACF0D1DE78FDE0023261F /* Kitchen_ProTests.swift */; };
 		69D6B5F21DE387AE002D5DC4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D6B5F11DE387AE002D5DC4 /* ViewController.swift */; };
 		B44E51FEDCEEA7C10AB49D6A /* Pods_Kitchen_Pro.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7444794BE40252784681922F /* Pods_Kitchen_Pro.framework */; };
@@ -47,6 +60,8 @@
 		6981464C1DDBB50200CC9657 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6981464E1DDBB50200CC9657 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6981BE111DDE80D200C1201E /* ImageLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
+		699A027F1DEBF0C900471B3D /* Kitchen Go.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Kitchen Go.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		699A02801DEBF0C900471B3D /* Kitchen Pro copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Kitchen Pro copy-Info.plist"; path = "/Users/zouy34/Desktop/Kitchen Pro/Kitchen Pro copy-Info.plist"; sourceTree = "<absolute>"; };
 		699ACF0B1DE78FDE0023261F /* Kitchen ProTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Kitchen ProTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		699ACF0D1DE78FDE0023261F /* Kitchen_ProTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Kitchen_ProTests.swift; sourceTree = "<group>"; };
 		699ACF0F1DE78FDE0023261F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -62,6 +77,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				B44E51FEDCEEA7C10AB49D6A /* Pods_Kitchen_Pro.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		699A02741DEBF0C900471B3D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				699A02751DEBF0C900471B3D /* Pods_Kitchen_Pro.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +106,7 @@
 				698146401DDBB50200CC9657 /* Products */,
 				D2AFDCBC74728A90C19F7B32 /* Pods */,
 				CD0F75A5F8CB99AC86D0C98E /* Frameworks */,
+				699A02801DEBF0C900471B3D /* Kitchen Pro copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -91,6 +115,7 @@
 			children = (
 				6981463F1DDBB50200CC9657 /* Kitchen Pro.app */,
 				699ACF0B1DE78FDE0023261F /* Kitchen ProTests.xctest */,
+				699A027F1DEBF0C900471B3D /* Kitchen Go.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -164,6 +189,26 @@
 			productReference = 6981463F1DDBB50200CC9657 /* Kitchen Pro.app */;
 			productType = "com.apple.product-type.application";
 		};
+		699A02681DEBF0C900471B3D /* Kitchen Go */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 699A027C1DEBF0C900471B3D /* Build configuration list for PBXNativeTarget "Kitchen Go" */;
+			buildPhases = (
+				699A02691DEBF0C900471B3D /* [CP] Check Pods Manifest.lock */,
+				699A026A1DEBF0C900471B3D /* Sources */,
+				699A02741DEBF0C900471B3D /* Frameworks */,
+				699A02761DEBF0C900471B3D /* Resources */,
+				699A027A1DEBF0C900471B3D /* [CP] Embed Pods Frameworks */,
+				699A027B1DEBF0C900471B3D /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Kitchen Go";
+			productName = "Kitchen Pro";
+			productReference = 699A027F1DEBF0C900471B3D /* Kitchen Go.app */;
+			productType = "com.apple.product-type.application";
+		};
 		699ACF0A1DE78FDE0023261F /* Kitchen ProTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 699ACF141DE78FDE0023261F /* Build configuration list for PBXNativeTarget "Kitchen ProTests" */;
@@ -197,6 +242,9 @@
 						DevelopmentTeam = M9KWKR5F39;
 						ProvisioningStyle = Automatic;
 					};
+					699A02681DEBF0C900471B3D = {
+						DevelopmentTeam = M9KWKR5F39;
+					};
 					699ACF0A1DE78FDE0023261F = {
 						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = M9KWKR5F39;
@@ -220,6 +268,7 @@
 			targets = (
 				6981463E1DDBB50200CC9657 /* Kitchen Pro */,
 				699ACF0A1DE78FDE0023261F /* Kitchen ProTests */,
+				699A02681DEBF0C900471B3D /* Kitchen Go */,
 			);
 		};
 /* End PBXProject section */
@@ -232,6 +281,16 @@
 				6981464D1DDBB50200CC9657 /* LaunchScreen.storyboard in Resources */,
 				6981464A1DDBB50200CC9657 /* Assets.xcassets in Resources */,
 				698146481DDBB50200CC9657 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		699A02761DEBF0C900471B3D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				699A02811DEBF5A900471B3D /* Main.storyboard in Resources */,
+				699A02771DEBF0C900471B3D /* LaunchScreen.storyboard in Resources */,
+				699A02781DEBF0C900471B3D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,6 +320,51 @@
 			showEnvVarsInLog = 0;
 		};
 		3E329C18989CC29F110C617D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Kitchen Pro/Pods-Kitchen Pro-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		699A02691DEBF0C900471B3D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		699A027A1DEBF0C900471B3D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Kitchen Pro/Pods-Kitchen Pro-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		699A027B1DEBF0C900471B3D /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -306,6 +410,22 @@
 				698146431DDBB50200CC9657 /* AppDelegate.swift in Sources */,
 				6981BE121DDE80D200C1201E /* ImageLoader.swift in Sources */,
 				691EDFF91DDBDBE0005C3CA0 /* RecipeStorage.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		699A026A1DEBF0C900471B3D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				699A026B1DEBF0C900471B3D /* ViewController.swift in Sources */,
+				699A026C1DEBF0C900471B3D /* RecipeViewController.swift in Sources */,
+				699A026D1DEBF0C900471B3D /* RecipeRequester.swift in Sources */,
+				699A026E1DEBF0C900471B3D /* RecipeWebViewController.swift in Sources */,
+				699A026F1DEBF0C900471B3D /* SearchViewController.swift in Sources */,
+				699A02701DEBF0C900471B3D /* RootViewController.swift in Sources */,
+				699A02711DEBF0C900471B3D /* AppDelegate.swift in Sources */,
+				699A02721DEBF0C900471B3D /* ImageLoader.swift in Sources */,
+				699A02731DEBF0C900471B3D /* RecipeStorage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -379,6 +499,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
+					"PRO=1",
 					"DEBUG=1",
 					"$(inherited)",
 				);
@@ -451,6 +572,7 @@
 				DEVELOPMENT_TEAM = M9KWKR5F39;
 				INFOPLIST_FILE = "Kitchen Pro/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -DPRO";
 				PRODUCT_BUNDLE_IDENTIFIER = "zys.Kitchen-Pro";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
@@ -465,8 +587,62 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = M9KWKR5F39;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"PRO=1",
+					"$(inherited)",
+					"COCOAPODS=1",
+				);
 				INFOPLIST_FILE = "Kitchen Pro/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -DPRO";
+				PRODUCT_BUNDLE_IDENTIFIER = "zys.Kitchen-Pro";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		699A027D1DEBF0C900471B3D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C7677A9F753A5B8BE5CA9338 /* Pods-Kitchen Pro.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = M9KWKR5F39;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"PRO=0",
+					"COCOAPODS=1",
+				);
+				INFOPLIST_FILE = "Kitchen Pro copy-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
+				PRODUCT_BUNDLE_IDENTIFIER = "zys.Kitchen-Pro";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		699A027E1DEBF0C900471B3D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9168BF978112A53B52E8DDE8 /* Pods-Kitchen Pro.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = M9KWKR5F39;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"PRO=0",
+				);
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"PRO=0",
+				);
+				INFOPLIST_FILE = "Kitchen Pro copy-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_BUNDLE_IDENTIFIER = "zys.Kitchen-Pro";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
@@ -521,6 +697,15 @@
 			buildConfigurations = (
 				698146521DDBB50200CC9657 /* Debug */,
 				698146531DDBB50200CC9657 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		699A027C1DEBF0C900471B3D /* Build configuration list for PBXNativeTarget "Kitchen Go" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				699A027D1DEBF0C900471B3D /* Debug */,
+				699A027E1DEBF0C900471B3D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
