@@ -17,6 +17,8 @@ class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionV
     @IBOutlet weak var bannerView: GADBannerView!
     @IBOutlet weak var optionView: UIView!
     
+
+    
     
     let recipeRequester = RecipeRequester.sharedInstance
     var selectedRecipe:Recipe?
@@ -34,6 +36,7 @@ class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionV
         
      //   loadBanner()
         setRecipes()
+        setSwitches()
         
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -79,6 +82,26 @@ class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionV
         
     }
     
+    private func setSwitches() {
+        for i in 0...7 {
+            let filterSwitch = view.viewWithTag(20+i) as! UISwitch
+            filterSwitch.isOn = (UserDefaults.standard.value(forKey: String(i)) != nil)
+            
+            filterSwitch.addTarget(self, action: #selector(switchChanged(sender:)), for: .valueChanged)
+            
+        }
+    }
+    
+  
+    func switchChanged(sender:UISwitch) {
+        let key = String(sender.tag - 20)
+        if (sender.isOn){
+            UserDefaults.standard.set(true, forKey: key)
+        }
+        else {
+            UserDefaults.standard.removeObject(forKey: key )
+        }
+    }
     
     internal func didGetRecipes(recipes:Array<Recipe>,type:RecipeRequestType){
         
@@ -196,14 +219,25 @@ class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionV
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
          searchBar.resignFirstResponder()
     }
-    
+
     
     @IBAction func didDeleteButtonTouched(_ sender: UIButton) {
         
         let recipeCell = sender.superview?.superview as! UICollectionViewCell
         let indexPath = savedRecipeCollectionView.indexPath(for: recipeCell)!
-        recipeRequester.removeRecipes(recipes: [savedRecipes[indexPath.row]], type: .saved)
-        savedRecipeCollectionView.reloadData()
+        let alertController = UIAlertController(title: nil, message:String(format: "Remove recipe: %@", savedRecipes[indexPath.row].title), preferredStyle: .alert)
+        let actionCancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+            alertController.dismiss(animated: true, completion: nil)
+        }
+        alertController.addAction(actionCancel)
+        let actionOk = UIAlertAction.init(title: "Ok", style: .destructive, handler: {(action) in
+            self.recipeRequester.removeRecipes(recipes: [self.savedRecipes[indexPath.row]], type: .saved)
+            self.savedRecipeCollectionView.reloadData()
+        })
+        alertController.addAction(actionOk)
+        self.present(alertController, animated: true, completion:nil)
+        
+        
     }
     
 

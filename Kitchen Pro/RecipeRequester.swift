@@ -19,9 +19,6 @@ protocol RecipeRequesterDelegate:class {
     
 }
 
-enum HealthLabel: String{
-    case Alcohol_Free = "alcohol-free"
-}
 
 enum RecipeRequestError:String {
     case key_null = "no input for search"
@@ -53,8 +50,31 @@ class RecipeRequester {
     static let sharedInstance = RecipeRequester()
     let apikey = "app_id=ac0ab8e9&app_key=fb39a454934a7a5a74b8adcb3a8b3985"
     let searchBaseString =  "https://api.edamam.com/search?"
+    
+    
     weak var delegate:RecipeRequesterDelegate?
-    var filter = ""
+
+    func filter() ->String {
+        let DietArray = [ "balanced", "low-carb","low-fat", "high-protein"]
+        let healthArray = ["vegan", "vegetarian", "peanut-free", "tree-nut-free"]
+        var string = ""
+        for i in 0...3 {
+            if UserDefaults.standard.object(forKey: String(i)) != nil {
+                string = string + "&diet=" + DietArray[i]
+            }
+        }
+        
+        
+        for i in 4...7 {
+            if UserDefaults.standard.object(forKey: String(i)) != nil {
+                string = string + "&health=" + healthArray[i-4]
+            }
+        }
+        
+        return string
+    }
+    
+
     
     
     // MARK: for search request
@@ -87,8 +107,8 @@ class RecipeRequester {
             delegate?.didfailToGetRecipe(error: RecipeRequestError.key_null)
             return
         }
-        
-        let requestString = String(format: "%@%@&from=%d&to=%d&q=%@", searchBaseString,apikey,from,to,modifiedKeyword(keyword: keyword!))
+       
+        let requestString = String(format: "%@%@&from=%d&to=%d&q=%@%@", searchBaseString,apikey,from,to,modifiedKeyword(keyword: keyword!),filter())
         
         recipeRequest(url: requestString, search:search)
         
