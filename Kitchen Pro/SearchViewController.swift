@@ -7,7 +7,6 @@
 //
 
 
-
 import UIKit
 
 enum sortType:Int {
@@ -16,8 +15,9 @@ enum sortType:Int {
     case calorie = 1
 }
 
-class SearchViewController: ViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class SearchViewController: ViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, RecipeRequesterDelegate {
     
+    var keyword:String = ""
     var numOfColumns:CGFloat = 2
     var recipes:Array<Recipe> = Array()
     
@@ -30,7 +30,8 @@ class SearchViewController: ViewController, UICollectionViewDelegate, UICollecti
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        sortRecipes(type: .relevance)
+        recipeRequester.delegate = self
+        searchRecipes(keyword: keyword);
         
         // Do any additional setup after loading the view.
     }
@@ -53,6 +54,30 @@ class SearchViewController: ViewController, UICollectionViewDelegate, UICollecti
         }
     }
    
+    internal func didGetRecipes(recipes:Array<Recipe>){
+        self.recipes = recipes
+        sortRecipes(type: sortType(rawValue: self.sortSegmentControl.selectedSegmentIndex)!)
+        recipeCollectionView.reloadData()
+    }
+    
+    
+    func didfailToGetRecipe(error:RecipeRequestError){
+        var message = "No return, check your input and network "
+        switch error {
+        case .response_error:
+            message = "no network"
+        case .hits_error:
+            message = "no return for these ingredients"
+        default:
+            break
+        }
+        showAlert(message: message)
+    }
+    
+    func searchRecipes(keyword:String?){
+        recipeRequester.recipeRequest(searchKey: keyword)
+    }
+    
     /*
      // MARK: - Navigation
      
@@ -81,7 +106,7 @@ class SearchViewController: ViewController, UICollectionViewDelegate, UICollecti
         servingLabel.text = String(recipe.serving)
         imageView.image = nil
         let random = Int(arc4random_uniform(11))
-        if random > 8 {
+        if random > 9 {
             DispatchQueue.main.async {
                 let recipes = RecipeStorage.sharedInstance.recipes.objects(Recipe.self).filter("urlString =  %@",recipe.urlString)
                 if recipes.count != 0 {
@@ -148,17 +173,10 @@ class SearchViewController: ViewController, UICollectionViewDelegate, UICollecti
         guard let key = searchBar.text else{
             return
         }
-        RecipeRequester.sharedInstance.recipeRequest(type: .search, searchKey: key)
+        RecipeRequester.sharedInstance.recipeRequest(searchKey: key)
     }
     
-    // Reciperequester delegate
-    func didGetRecipes(recipes:Array<Recipe>){
-        self.recipes = recipes
-        DispatchQueue.main.async {
-            self.sortRecipes(type: sortType(rawValue: self.sortSegmentControl.selectedSegmentIndex)!)
-            
-        }
-    }
+   
     
     private func sortRecipes(type:sortType){
         

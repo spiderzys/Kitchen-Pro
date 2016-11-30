@@ -12,7 +12,7 @@ import RealmSwift
 
 protocol RecipeRequesterDelegate:class {
     
-    func didGetRecipes(recipes:Array<Recipe>,type:RecipeRequestType)
+    func didGetRecipes(recipes:Array<Recipe>)
     
     func didfailToGetRecipe(error:RecipeRequestError)
     
@@ -27,14 +27,14 @@ enum RecipeRequestError:String {
     case recipes_null = "no recipes found"
 }
 
-
+/*
 enum RecipeRequestType {
     
     case saved
     case recommended
     case search
 }
-
+*/
 enum RecipeType:String {
     
     case saved = "saved"
@@ -53,7 +53,7 @@ class RecipeRequester {
     
     
     weak var delegate:RecipeRequesterDelegate?
-
+    
     func filter() ->String {
         let DietArray = [ "balanced", "low-carb","low-fat", "high-protein"]
         let healthArray = ["vegan", "vegetarian", "peanut-free", "tree-nut-free"]
@@ -74,43 +74,45 @@ class RecipeRequester {
         return string
     }
     
-
+    func resetRecommendedRecipes(completion:()){
+        let startIndex = Int(arc4random_uniform(90))  //generate 10 recommended recipes
+        recipeSearchRequest(keyword: "beef,chicken", from: startIndex, to: startIndex+10, completion: completion)
+        
+    }
+    
     
     
     // MARK: for search request
     
-    func recipeRequest(type:RecipeRequestType, searchKey:String?){
+    func recipeRequest(searchKey:String?){
         guard delegate != nil else {
             
             print("no delegate set yet")
             return
         }
         
-        switch type {
-        case .search:
-            recipeSearchRequest(keyword: searchKey, search:true)
-        default:
-            recipeRecommededRequest()
-        }
-    }
-    
-    private func recipeSearchRequest(keyword:String!, search:Bool){
+        recipeSearchRequest(keyword: searchKey, completion: nil)
         
-        recipeSearchRequest(keyword: keyword, from: 0, to: 100, search:search)
         
     }
     
-    private func recipeSearchRequest(keyword:String? , from:Int , to:Int, search:Bool){
+    private func recipeSearchRequest(keyword:String!, completion:()?){
+        
+        recipeSearchRequest(keyword: keyword, from: 0, to: 100, completion:completion)
+        
+    }
+    
+    private func recipeSearchRequest(keyword:String? , from:Int , to:Int, completion:()?){
         
         if keyword == nil || keyword?.characters.count == 0  {
             
             delegate?.didfailToGetRecipe(error: RecipeRequestError.key_null)
             return
         }
-       
+        
         let requestString = String(format: "%@%@&from=%d&to=%d&q=%@%@", searchBaseString,apikey,from,to,modifiedKeyword(keyword: keyword!),filter())
         
-        recipeRequest(url: requestString, search:search)
+        recipeRequest(url: requestString, completion:completion)
         
         
         
@@ -126,7 +128,7 @@ class RecipeRequester {
     }
     
     
-    private func recipeRequest(url:URLConvertible, search:Bool){
+    private func recipeRequest(url:URLConvertible,completion:()?){
         
         Alamofire.request(url).responseJSON { response in
             
@@ -148,13 +150,13 @@ class RecipeRequester {
             
             let recipes = self.processDownloadedRecipes(rawRecipeDicts: rawRecipeDicts)
             
-            if(!search){
+            if(completion != nil){
                 
                 self.addRecipes(recipes: recipes, type: .recommended)
-                self.delegate?.didGetRecipes(recipes: recipes, type: .recommended)
+                completion;
             }
             else {
-                self.delegate?.didGetRecipes(recipes: recipes, type: .search)
+                self.delegate?.didGetRecipes(recipes: recipes)
             }
             
             
@@ -215,13 +217,6 @@ class RecipeRequester {
     
     
     
-    private func recipeRecommededRequest(){  // request recommended recipes
-        
-        
-        let startIndex = Int(arc4random_uniform(90))  //generate 10 recommended recipes
-        recipeSearchRequest(keyword: "beef,chicken", from: startIndex, to: startIndex+10, search:false)
-        
-    }
     
     
     
@@ -247,7 +242,7 @@ class RecipeRequester {
                     
                     
                 }
-               
+                
                 
             }
             try! recipeStorage.write {
@@ -264,7 +259,7 @@ class RecipeRequester {
         
         
         for recipe in recipes{
-    
+            
             switch type {
                 
             case .recommended:

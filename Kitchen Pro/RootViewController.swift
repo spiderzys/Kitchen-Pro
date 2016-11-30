@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift
 import GoogleMobileAds
 
-class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate {
+class RootViewController: ViewController, UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate {
     
     @IBOutlet weak var recommendedRecipeCollectionView: UICollectionView!
     @IBOutlet weak var savedRecipeCollectionView: UICollectionView!
@@ -18,10 +18,11 @@ class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionV
     @IBOutlet weak var optionView: UIView!
     
     @IBOutlet weak var OptionButton: UIButton!
+    @IBOutlet weak var searchBar: UISearchBar!
+
 
     
     
-    let recipeRequester = RecipeRequester.sharedInstance
     var selectedRecipe:Recipe?
     
     
@@ -30,7 +31,7 @@ class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionV
     }
     let recommendedRecipes = RecipeRequester.sharedInstance.recommendedRecipes
     let savedRecipes = RecipeRequester.sharedInstance.savedRecipes
-    var searchRecipes:Array<Recipe> = Array()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,6 +50,7 @@ class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionV
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        
         recommendedRecipeCollectionView.reloadData()
         savedRecipeCollectionView.reloadData()
     }
@@ -62,7 +64,7 @@ class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionV
                           sender: Any?){
         if segue.identifier == "search" {
             let searchViewController = segue.destination as! SearchViewController
-            searchViewController.recipes = searchRecipes
+            searchViewController.keyword = (searchBar.text?)!
         }
         else if segue.identifier == "local" {
             let recipeCell = sender as! UICollectionViewCell
@@ -83,7 +85,8 @@ class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionV
     private func setRecipes(){
         recipeRequester.delegate = self;
         if recommendedRecipes.count == 0 {
-            recipeRequester.recipeRequest(type: .recommended, searchKey: nil)
+            recipeRequester.resetRecommendedRecipes(completion: recommendedRecipeCollectionView.reloadData())
+            
         }
         
     }
@@ -109,37 +112,7 @@ class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionV
         }
     }
     
-    internal func didGetRecipes(recipes:Array<Recipe>,type:RecipeRequestType){
-        
-        switch type {
-        case .search:
-            DispatchQueue.main.async {
-                self.searchRecipes = recipes
-                self.performSegue(withIdentifier: "search", sender: nil)
-            }
-        case .recommended:
-            recommendedRecipeCollectionView.reloadData()
-        case .saved:
-            savedRecipeCollectionView.reloadData()
-            
-        }
-        
-        
-    }
     
-    
-    func didfailToGetRecipe(error:RecipeRequestError){
-        var message = "No return, check your input and network "
-        switch error {
-        case .response_error:
-           message = "no network"
-        case .hits_error:
-           message = "no return for these ingredients"
-        default:
-            break
-        }
-        showAlert(message: message)
-    }
     
     
     
@@ -198,6 +171,7 @@ class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionV
         let recipeCell = collectionView.cellForItem(at: indexPath)
         
         performSegue(withIdentifier: "local", sender: recipeCell)
+        
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -216,10 +190,12 @@ class RootViewController: ViewController, RecipeRequesterDelegate, UICollectionV
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar){
-        guard let key = searchBar.text else{
-            return
+      
+        DispatchQueue.main.async {
+            self.performSegue(withIdentifier: "search", sender: nil)
         }
-        recipeRequester.recipeRequest(type: .search, searchKey: key)
+        
+       // recipeRequester.recipeRequest(type: .search, searchKey: key)
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {

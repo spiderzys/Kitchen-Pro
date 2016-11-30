@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    
+    let recipeRequester = RecipeRequester.sharedInstance
     
     override func viewDidLoad() {
         super.viewDidLoad()
