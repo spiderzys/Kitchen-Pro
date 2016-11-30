@@ -7,7 +7,10 @@
 //
 
 
+
 import UIKit
+
+let numOfRecipesEachRequest = 30
 
 enum sortType:Int {
     
@@ -15,23 +18,25 @@ enum sortType:Int {
     case calorie = 1
 }
 
-class SearchViewController: ViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, RecipeRequesterDelegate {
+class SearchViewController: ViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate,RecipeRequesterDelegate {
     
     var keyword:String = ""
     var numOfColumns:CGFloat = 2
     var recipes:Array<Recipe> = Array()
-    
     var selectedRecipe:Recipe?
     
-    @IBOutlet weak var sortSegmentControl: UISegmentedControl!
     
+    @IBOutlet weak var loadingActivityView: UIActivityIndicatorView!
+    @IBOutlet weak var sortSegmentControl: UISegmentedControl!
     @IBOutlet weak var recipeCollectionView: UICollectionView!
+    @IBOutlet weak var searchBar: UISearchBar!
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        searchBar.text = keyword
         recipeRequester.delegate = self
-        searchRecipes(keyword: keyword);
+        searchRecipes();
         
         // Do any additional setup after loading the view.
     }
@@ -55,6 +60,13 @@ class SearchViewController: ViewController, UICollectionViewDelegate, UICollecti
     }
    
     internal func didGetRecipes(recipes:Array<Recipe>){
+        
+        if (recipes.count == 0){
+            self.recipes = recipes
+            sortRecipes(type: sortType(rawValue: self.sortSegmentControl.selectedSegmentIndex)!)
+            recipeCollectionView.reloadData()
+        }
+        
         self.recipes = recipes
         sortRecipes(type: sortType(rawValue: self.sortSegmentControl.selectedSegmentIndex)!)
         recipeCollectionView.reloadData()
@@ -62,7 +74,9 @@ class SearchViewController: ViewController, UICollectionViewDelegate, UICollecti
     
     
     func didfailToGetRecipe(error:RecipeRequestError){
-        var message = "No return, check your input and network "
+        recipeCollectionView.isScrollEnabled = true
+        loadingActivityView.isHidden = true
+        var message = "no (more) recieps for the input"
         switch error {
         case .response_error:
             message = "no network"
@@ -74,10 +88,30 @@ class SearchViewController: ViewController, UICollectionViewDelegate, UICollecti
         showAlert(message: message)
     }
     
-    func searchRecipes(keyword:String?){
-        recipeRequester.recipeRequest(searchKey: keyword)
+    func didGetMoreRecipes(recipes: Array<Recipe>) {
+        
+        var indexPaths:Array<IndexPath> = Array()
+        loadingActivityView.isHidden = true
+    
+        for i in 0...recipes.count-1 {
+            let indexPath = IndexPath(row: self.recipes.count + i, section: 0)
+            indexPaths.append(indexPath)
+        }
+        self.recipes.append(contentsOf: recipes)
+        recipeCollectionView.insertItems(at: indexPaths)
+        recipeCollectionView.isScrollEnabled = true
+        
     }
     
+    func searchRecipes(){
+        recipeRequester.recipeSearchRequest(keyword: keyword)
+    }
+    
+    func searchMoreRecipes(){
+        
+        recipeRequester.moreRecipesRequest(keyword: keyword, from: recipes.count)
+        
+    }
     /*
      // MARK: - Navigation
      
@@ -115,11 +149,8 @@ class SearchViewController: ViewController, UICollectionViewDelegate, UICollecti
                 else{
                     RecipeRequester.sharedInstance.addRecipes(recipes: [recipe], type: .recommended)
                 }
-                
             }
-            
         }
-        
         ImageLoader.sharedInstance.loadImage(url: URL(string: recipe.imageUrlString)!, completion: {image in
             imageView.image = image
         })
@@ -148,6 +179,22 @@ class SearchViewController: ViewController, UICollectionViewDelegate, UICollecti
         
     }
     
+
+    
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let cellHeight = scrollView.bounds.width/numOfColumns*124/108
+        let height = cellHeight * CGFloat(recipes.count)/numOfColumns;
+        
+        if (scrollView.contentOffset.y + 500 > height) {
+            loadingActivityView.isHidden = false
+            scrollView.isScrollEnabled = false
+            recipeRequester.moreRecipesRequest(keyword: keyword, from: recipes.count)
+        }
+      
+    }
+    
+    
     // segment value changed
     @IBAction func sortMethodChanged(_ sender: UISegmentedControl) {
         
@@ -163,7 +210,7 @@ class SearchViewController: ViewController, UICollectionViewDelegate, UICollecti
         
     }
     
-    // searchbar delegate currently not availabel
+    // searchbar delegate currently not available
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar){
         
         searchBar.resignFirstResponder()
@@ -173,11 +220,11 @@ class SearchViewController: ViewController, UICollectionViewDelegate, UICollecti
         guard let key = searchBar.text else{
             return
         }
-        RecipeRequester.sharedInstance.recipeRequest(searchKey: key)
+        keyword = key
+        searchRecipes()
     }
     
    
-    
     private func sortRecipes(type:sortType){
         
         switch type {

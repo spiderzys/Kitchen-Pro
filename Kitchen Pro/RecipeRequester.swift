@@ -10,11 +10,16 @@ import UIKit
 import Alamofire
 import RealmSwift
 
+
+
 protocol RecipeRequesterDelegate:class {
     
     func didGetRecipes(recipes:Array<Recipe>)
     
+    func didGetMoreRecipes(recipes:Array<Recipe>)
+    
     func didfailToGetRecipe(error:RecipeRequestError)
+    
     
     
 }
@@ -54,7 +59,7 @@ class RecipeRequester {
     
     weak var delegate:RecipeRequesterDelegate?
     
-    func filter() ->String {
+    private func filter() ->String {
         let DietArray = [ "balanced", "low-carb","low-fat", "high-protein"]
         let healthArray = ["vegan", "vegetarian", "peanut-free", "tree-nut-free"]
         var string = ""
@@ -74,35 +79,39 @@ class RecipeRequester {
         return string
     }
     
-    func resetRecommendedRecipes(completion:()){
+    func resetRecommendedRecipes(completion:((Array<Recipe>) -> Void)?){
         let startIndex = Int(arc4random_uniform(90))  //generate 10 recommended recipes
-        recipeSearchRequest(keyword: "beef,chicken", from: startIndex, to: startIndex+10, completion: completion)
+        recipeSearchRequest(keyword: "beef,chicken", from: startIndex, to: startIndex+10, completion: completion!)
         
     }
     
-    
-    
-    // MARK: for search request
-    
-    func recipeRequest(searchKey:String?){
+
+    func recipeSearchRequest(keyword:String!){
         guard delegate != nil else {
-            
-            print("no delegate set yet")
+            print("no delegate")
+            return
+        }
+        recipeSearchRequest(keyword: keyword, from: 0, to: 60, completion:{(recipes:Array<Recipe>) -> Void in
+            self.delegate?.didGetRecipes(recipes: recipes)
+        })
+    }
+    
+    
+    func moreRecipesRequest(keyword:String!, from:Int){
+        
+        guard delegate != nil else {
+            print("no delegate")
             return
         }
         
-        recipeSearchRequest(keyword: searchKey, completion: nil)
-        
-        
+        recipeSearchRequest(keyword: keyword, from: from, to: from+numOfRecipesEachRequest, completion: {(recipes:Array<Recipe>) -> Void in
+            self.delegate?.didGetMoreRecipes(recipes: recipes)
+        })
     }
     
-    private func recipeSearchRequest(keyword:String!, completion:()?){
-        
-        recipeSearchRequest(keyword: keyword, from: 0, to: 100, completion:completion)
-        
-    }
+   
     
-    private func recipeSearchRequest(keyword:String? , from:Int , to:Int, completion:()?){
+    private func recipeSearchRequest(keyword:String? , from:Int , to:Int, completion:@escaping (Array<Recipe>) -> Void){
         
         if keyword == nil || keyword?.characters.count == 0  {
             
@@ -114,11 +123,7 @@ class RecipeRequester {
         
         recipeRequest(url: requestString, completion:completion)
         
-        
-        
     }
-    
-    
     
     private func modifiedKeyword(keyword:String) -> String {
         
@@ -128,7 +133,7 @@ class RecipeRequester {
     }
     
     
-    private func recipeRequest(url:URLConvertible,completion:()?){
+    private func recipeRequest(url:URLConvertible,completion:@escaping (Array<Recipe>) -> Void){
         
         Alamofire.request(url).responseJSON { response in
             
@@ -150,15 +155,7 @@ class RecipeRequester {
             
             let recipes = self.processDownloadedRecipes(rawRecipeDicts: rawRecipeDicts)
             
-            if(completion != nil){
-                
-                self.addRecipes(recipes: recipes, type: .recommended)
-                completion;
-            }
-            else {
-                self.delegate?.didGetRecipes(recipes: recipes)
-            }
-            
+            completion(recipes)
             
             
         }

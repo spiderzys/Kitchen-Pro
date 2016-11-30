@@ -10,6 +10,8 @@ import UIKit
 import RealmSwift
 import GoogleMobileAds
 
+
+
 class RootViewController: ViewController, UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate {
     
     @IBOutlet weak var recommendedRecipeCollectionView: UICollectionView!
@@ -19,19 +21,13 @@ class RootViewController: ViewController, UICollectionViewDataSource, UICollecti
     
     @IBOutlet weak var OptionButton: UIButton!
     @IBOutlet weak var searchBar: UISearchBar!
-
-
-    
     
     var selectedRecipe:Recipe?
-    
-    
     var recipeCellSize:CGSize {
         return CGSize(width: recommendedRecipeCollectionView.bounds.height, height: recommendedRecipeCollectionView.bounds.height)
     }
     let recommendedRecipes = RecipeRequester.sharedInstance.recommendedRecipes
     let savedRecipes = RecipeRequester.sharedInstance.savedRecipes
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,9 +37,7 @@ class RootViewController: ViewController, UICollectionViewDataSource, UICollecti
             loadBanner()
             OptionButton.isHidden = true
         #endif
-     //   loadBanner()
         setRecipes()
-        
         
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -62,9 +56,10 @@ class RootViewController: ViewController, UICollectionViewDataSource, UICollecti
     
     override func prepare(for segue: UIStoryboardSegue,
                           sender: Any?){
+        
         if segue.identifier == "search" {
             let searchViewController = segue.destination as! SearchViewController
-            searchViewController.keyword = (searchBar.text?)!
+            searchViewController.keyword = searchBar.text!
         }
         else if segue.identifier == "local" {
             let recipeCell = sender as! UICollectionViewCell
@@ -83,10 +78,11 @@ class RootViewController: ViewController, UICollectionViewDataSource, UICollecti
     }
     
     private func setRecipes(){
-        recipeRequester.delegate = self;
+        
         if recommendedRecipes.count == 0 {
-            recipeRequester.resetRecommendedRecipes(completion: recommendedRecipeCollectionView.reloadData())
-            
+            recipeRequester.resetRecommendedRecipes(completion: {(recipes:Array<Recipe>) -> Void in
+                self.recommendedRecipeCollectionView.reloadData()
+            })
         }
         
     }
@@ -95,13 +91,12 @@ class RootViewController: ViewController, UICollectionViewDataSource, UICollecti
         for i in 0...7 {
             let filterSwitch = view.viewWithTag(20+i) as! UISwitch
             filterSwitch.isOn = (UserDefaults.standard.value(forKey: String(i)) != nil)
-            
             filterSwitch.addTarget(self, action: #selector(switchChanged(sender:)), for: .valueChanged)
             
         }
     }
     
-  
+    
     func switchChanged(sender:UISwitch) {
         let key = String(sender.tag - 20)
         if (sender.isOn){
@@ -190,18 +185,18 @@ class RootViewController: ViewController, UICollectionViewDataSource, UICollecti
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar){
-      
+        
         DispatchQueue.main.async {
             self.performSegue(withIdentifier: "search", sender: nil)
         }
         
-       // recipeRequester.recipeRequest(type: .search, searchKey: key)
+        // recipeRequester.recipeRequest(type: .search, searchKey: key)
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-         searchBar.resignFirstResponder()
+        searchBar.resignFirstResponder()
     }
-
+    
     
     @IBAction func didDeleteButtonTouched(_ sender: UIButton) {
         
@@ -222,13 +217,13 @@ class RootViewController: ViewController, UICollectionViewDataSource, UICollecti
         
     }
     
-
+    
     @IBAction func didOptionShowButtonTouched(_ sender: UIButton) {
-      
+        
         
         UIView.transition(with: optionView, duration: 0.5, options: .transitionCurlDown, animations: {
             self.optionView.isHidden = false
-            }, completion: nil)
+        }, completion: nil)
         
         
         
@@ -238,7 +233,7 @@ class RootViewController: ViewController, UICollectionViewDataSource, UICollecti
         UIView.transition(with: optionView, duration: 0.5, options: .transitionCurlUp, animations: {
             self.optionView.isHidden = true
         }, completion: nil)
-     
+        
     }
     
     
