@@ -39,6 +39,15 @@ class RecipeWebViewController: UIViewController {
         recipeWebView.stopLoading()
         dismiss(animated: true, completion: nil)
     }
+    
+    
+    
+    @IBAction func didSwipe(_ sender: UISwipeGestureRecognizer) {
+        recipeWebView.goBack()
+    }
+
+    
+    
 
     /*
     // MARK: - Navigation
