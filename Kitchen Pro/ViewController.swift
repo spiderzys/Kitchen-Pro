@@ -14,6 +14,9 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    
+    
+        
         setBackground()
 
         // Do any additional setup after loading the view.
