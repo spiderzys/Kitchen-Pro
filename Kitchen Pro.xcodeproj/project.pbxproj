@@ -234,7 +234,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0810;
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "YANGSHENG ZOU";
 				TargetAttributes = {
 					6981463E1DDBB50200CC9657 = {
@@ -654,6 +654,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C7677A9F753A5B8BE5CA9338 /* Pods-Kitchen Pro.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = M9KWKR5F39;
 				INFOPLIST_FILE = "Kitchen ProTests/Info.plist";
@@ -669,6 +670,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9168BF978112A53B52E8DDE8 /* Pods-Kitchen Pro.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = M9KWKR5F39;
 				INFOPLIST_FILE = "Kitchen ProTests/Info.plist";

@@ -58,7 +58,8 @@ class SearchViewController: ViewController, UICollectionViewDelegate, UICollecti
             recipeViewController.recipeImage = imageView.image
         }
     }
-   
+    
+  
     internal func didGetRecipes(recipes:Array<Recipe>){
         
         if (recipes.count == 0){
@@ -229,6 +230,11 @@ class SearchViewController: ViewController, UICollectionViewDelegate, UICollecti
         
         switch type {
         case .relevance:
+            /*
+            recipes.sort(by: { (recipe1, recipe2) -> Bool in
+                return recipe1.ingredients.count < recipe2.ingredients.count
+            })
+            */
             recipes.sort{ $0.ingredients.count < $1.ingredients.count }
         case .calorie:
             recipes.sort{ $0.calorie < $1.calorie }

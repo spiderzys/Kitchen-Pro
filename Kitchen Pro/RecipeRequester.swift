@@ -87,25 +87,24 @@ class RecipeRequester {
     
 
     func recipeSearchRequest(keyword:String!){
-        guard delegate != nil else {
+        guard let delegate = delegate else {
             print("no delegate")
             return
         }
         recipeSearchRequest(keyword: keyword, from: 0, to: 60, completion:{(recipes:Array<Recipe>) -> Void in
-            self.delegate?.didGetRecipes(recipes: recipes)
+            delegate.didGetRecipes(recipes: recipes)
         })
     }
     
     
     func moreRecipesRequest(keyword:String!, from:Int){
-        
-        guard delegate != nil else {
+        guard let delegate = delegate else {
             print("no delegate")
             return
         }
         
         recipeSearchRequest(keyword: keyword, from: from, to: from+numOfRecipesEachRequest, completion: {(recipes:Array<Recipe>) -> Void in
-            self.delegate?.didGetMoreRecipes(recipes: recipes)
+            delegate.didGetMoreRecipes(recipes: recipes)
         })
     }
     
@@ -297,7 +296,7 @@ class RecipeRequester {
     
 }
 
-extension RecipeRequesterDelegate {
+extension RecipeRequesterDelegate where Self: ViewController{
     
     func didfailToGetRecipe(error:RecipeRequestError){
         print(error)

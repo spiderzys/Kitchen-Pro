@@ -35,7 +35,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="guess" id="OWf-ZE-JZn">
-                                        <rect key="frame" x="0.0" y="1" width="121" height="124"/>
+                                        <rect key="frame" x="0.0" y="0.5" width="121" height="124"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="121" height="124"/>
@@ -767,6 +767,7 @@
                             </label>
                         </subviews>
                         <color key="backgroundColor" red="0.90731169869999995" green="0.90731169869999995" blue="0.90731169869999995" alpha="1" colorSpace="calibratedRGB"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="oB9-zu-88x" firstAttribute="leading" secondItem="GQZ-J7-gfb" secondAttribute="leading" id="0bQ-zc-O86"/>
                             <constraint firstItem="yMf-dy-303" firstAttribute="centerY" secondItem="Qjk-k0-2kE" secondAttribute="centerY" id="2Hf-g0-oMW"/>
@@ -807,6 +808,9 @@
                             <constraint firstItem="yMf-dy-303" firstAttribute="leading" secondItem="Qjk-k0-2kE" secondAttribute="trailing" id="wjk-cw-lES"/>
                             <constraint firstItem="wEg-b1-ndZ" firstAttribute="height" secondItem="PsC-8I-nW3" secondAttribute="height" id="zil-h9-cjM"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="fRp-R7-Tl0" appends="YES" id="x8c-0U-jto"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="calorieLabel" destination="WKX-zV-AeX" id="fYC-0z-Nz9"/>
@@ -820,6 +824,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0KW-b8-AfY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="left" id="fRp-R7-Tl0"/>
             </objects>
             <point key="canvasLocation" x="-304" y="814"/>
         </scene>
@@ -853,21 +858,25 @@
                                 </items>
                             </navigationBar>
                             <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NpZ-Wx-8SR">
-                                <rect key="frame" x="0.0" y="44" width="320" height="524"/>
+                                <rect key="frame" x="8" y="44" width="304" height="524"/>
                                 <color key="backgroundColor" red="0.90731169869999995" green="0.90731169869999995" blue="0.90731169869999995" alpha="1" colorSpace="calibratedRGB"/>
                                 <gestureRecognizers/>
                             </webView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="IHo-7e-lMO" secondAttribute="trailing" id="1UY-Kt-seQ"/>
                             <constraint firstItem="IHo-7e-lMO" firstAttribute="top" secondItem="jRz-0V-1XA" secondAttribute="top" id="4eP-ZE-nOX"/>
                             <constraint firstItem="NpZ-Wx-8SR" firstAttribute="top" secondItem="IHo-7e-lMO" secondAttribute="bottom" id="IBc-eq-PuP"/>
                             <constraint firstItem="dqQ-jZ-8ei" firstAttribute="top" secondItem="NpZ-Wx-8SR" secondAttribute="bottom" id="SPY-vS-glT"/>
-                            <constraint firstItem="NpZ-Wx-8SR" firstAttribute="leading" secondItem="jRz-0V-1XA" secondAttribute="leading" id="icr-9v-j5H"/>
+                            <constraint firstItem="NpZ-Wx-8SR" firstAttribute="leading" secondItem="jRz-0V-1XA" secondAttribute="leading" constant="8" id="icr-9v-j5H"/>
                             <constraint firstItem="IHo-7e-lMO" firstAttribute="leading" secondItem="jRz-0V-1XA" secondAttribute="leading" id="oP1-sj-m8e"/>
-                            <constraint firstAttribute="trailing" secondItem="NpZ-Wx-8SR" secondAttribute="trailing" id="qRm-JY-0sR"/>
+                            <constraint firstAttribute="trailing" secondItem="NpZ-Wx-8SR" secondAttribute="trailing" constant="8" id="qRm-JY-0sR"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="u7g-lN-ZBv" appends="YES" id="hP2-1w-nRn"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="navigationBar" destination="IHo-7e-lMO" id="lhJ-zA-cgl"/>
@@ -875,6 +884,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oVe-5e-xib" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="left" id="u7g-lN-ZBv">
+                    <connections>
+                        <action selector="goBack" destination="NpZ-Wx-8SR" id="F0P-ya-HFH"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="527" y="805"/>
         </scene>
